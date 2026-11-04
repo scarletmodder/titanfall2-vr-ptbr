@@ -63,12 +63,15 @@ jobs:
       - name: Executable tests
         shell: powershell
         run: ./tests/test-exe.ps1
+      - name: Window tests
+        shell: powershell
+        run: ./tests/test-window.ps1
       - name: Installer tests
         shell: powershell
         run: ./tests/test-installer.ps1
       - name: Byte scan of the exe and the installer
         shell: pwsh
-        run: python scripts/scan_binary.py dist/Titanfall2VR-PTBR.exe (Get-ChildItem dist/Instalador-*.exe).FullName
+        run: python scripts/scan_binary.py dist/Titanfall2VR-PTBR.exe dist/Titanfall2VR-PTBR-Window.exe (Get-ChildItem dist/Instalador-*.exe).FullName
       - name: Build the release notes
         shell: pwsh
         run: |

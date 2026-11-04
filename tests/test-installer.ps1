@@ -95,7 +95,10 @@ try {
     Check ($listed.DisplayName -ceq 'Tradução PT-BR do mod Titanfall 2 VR') 'name in the list'
     Check ($listed.Publisher -ceq 'Scarlet Modder') 'publisher in the list'
     Check ($listed.DisplayVersion -ceq $version) 'version in the list'
-    Check (Test-Path -LiteralPath (Join-Path ([Environment]::GetFolderPath('Programs')) 'Tradução PT-BR do mod Titanfall 2 VR.lnk')) 'shortcut in the Start menu'
+    $shortcut = Join-Path ([Environment]::GetFolderPath('Programs')) 'Tradução PT-BR do mod Titanfall 2 VR.lnk'
+    Check (Test-Path -LiteralPath $shortcut) 'shortcut in the Start menu'
+    Check ((New-Object -ComObject WScript.Shell).CreateShortcut($shortcut).TargetPath -ieq (Join-Path $APP 'Titanfall2VR-PTBR-Window.exe')) 'it opens the window'
+    Check (Test-Path -LiteralPath (Join-Path $APP 'Titanfall2VR-PTBR-Window.exe')) 'the window is installed'
     Check (Test-Path -LiteralPath (Join-Path $APP 'LICENSE.txt')) 'the license is installed'
 
     Write-Host '[4] Installing again changes nothing in the backup'
@@ -117,6 +120,18 @@ try {
     Check ($LASTEXITCODE -eq 0 -and -not (Originals)) 'reapply translates again'
     $ErrorActionPreference = $eap
     Check (Test-Path -LiteralPath $ENTRY) 'the entry of the installer is still there'
+
+    Write-Host '[4c] With the window open, the installer and the uninstaller stop'
+    $open = Start-Process -FilePath (Join-Path $APP 'Titanfall2VR-PTBR-Window.exe') -ArgumentList @('-DictionaryDir', "`"$DIC`"", '-GameProcesses', 'process-that-does-not-exist') -PassThru
+    Start-Sleep 5
+    $before = (Get-Item -LiteralPath $UNINSTALLER).LastWriteTimeUtc
+    $code = Install $GAME
+    Check ($code -eq 1) "installer stops, code 1 (it exited $code)"
+    Check ((Get-Item -LiteralPath $UNINSTALLER).LastWriteTimeUtc -eq $before) 'and changes nothing'
+    Uninstall
+    Check (Test-Path -LiteralPath $ENTRY) 'the uninstaller stops too, and the entry stays'
+    Check (-not (Originals)) 'the translation stays'
+    $open.Kill(); [void]$open.WaitForExit(10000)
 
     Write-Host '[5] Uninstall with the game gone: nothing is removed'
     Rename-Item -LiteralPath $GAME -NewName 'game moved'
@@ -141,6 +156,7 @@ try {
     Check (WaitGone $DATA) 'the data folder is gone'
     Check (WaitGone $ENTRY) 'the entry is gone'
     Check (WaitGone (Join-Path $APP 'Titanfall2VR-PTBR.exe')) 'the program is gone'
+    Check (WaitGone (Join-Path $APP 'Titanfall2VR-PTBR-Window.exe')) 'the window is gone'
     Check (-not (Test-Path -LiteralPath $LEGACY)) 'no other entry was left'
 
     Write-Host '[7] Game folder without the mod: says so, and the program stays to try again'

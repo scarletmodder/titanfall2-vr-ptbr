@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.2
+
+- O programa do menu Iniciar agora é uma janela, no lugar do terminal: mostra em que idioma o jogo está e tem botões para traduzir ou reaplicar, voltar ao inglês e trocar a pasta do jogo. Segue o tema claro ou escuro do Windows.
+- A janela mostra na própria tela o motivo das falhas, inclusive o que a etapa de administrador disse, e tem um botão para copiar a lista de textos sem tradução.
+- Abrir `Titanfall2VR-PTBR.exe` sem nada pedido agora abre a janela. O menu numerado saiu.
+
 ## 1.0.1
 
 - Tradução de 196 textos da versão 1.0.25 do mod: menu de configurações de VR, inclusive as opções de vídeo, avisos de interação, dicas do tutorial, menu de pausa, escolhas de diálogo e menu principal. Jogada no headset, sem problema no conteúdo em PT-BR.

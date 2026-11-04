@@ -4,7 +4,7 @@
 #   Translate : if the mod changed (or the dictionary did), keeps the mod's original as a backup and
 #               applies the translation. If nothing changed, it only says everything is up to date.
 #   Restore   : puts the original (English) texts of the installed mod version back.
-#   Status    : shows the state, changing nothing.
+#   Status    : shows the state, changing nothing. With -Json, as one line for the window of the Start menu.
 #
 # One backup only: always the original of the last mod version this tool has seen.
 # A translated file carries a line with the identifier $MARKER_ID. NEVER change that identifier:
@@ -20,8 +20,8 @@
 
 [CmdletBinding()]
 param(
-    [ValidateSet('Menu', 'Translate', 'Restore', 'Status')]
-    [string]$Action = 'Menu',
+    [ValidateSet('Translate', 'Restore', 'Status')]
+    [string]$Action = 'Status',
     [string]$GameDir,
     [string]$DataDir = (Join-Path $env:LOCALAPPDATA 'ScarletModder\Titanfall2VR-PTBR'),
     [string]$DictionaryDir,
@@ -34,7 +34,8 @@ param(
     [switch]$Elevated,
     [switch]$Uninstalling,
     [switch]$ViaExe,
-    [switch]$NoPrompt
+    [switch]$NoPrompt,
+    [switch]$Json
 )
 
 $ErrorActionPreference = 'Stop'
@@ -45,8 +46,9 @@ if (-not $DictionaryDir) { $DictionaryDir = Join-Path $PSScriptRoot 'translation
 # ============================================================
 #  Constants
 # ============================================================
-$VERSION = '1.0.1'
+$VERSION = '1.0.2'
 $EXIT_NEEDS_ELEVATION = 20
+$STATUS_PREFIX = 'TF2VR_STATUS:'
 
 # On-disk format written by v1.0.0 (Portuguese literals on purpose). Newer builds must keep recognising
 # what v1.0.0 wrote, so these values must never change:
@@ -316,7 +318,7 @@ function Write-Batch($items) {
             } catch { $notUndone += $i.Path }
         }
         if ($notUndone.Count -gt 0) {
-            Throw-FriendlyError "ATENÇÃO: a gravação falhou e não consegui desfazer em: $($notUndone -join ', ')" 'Use a opção de voltar aos originais ou reinstale o mod pelo instalador antes de jogar.'
+            Throw-FriendlyError "ATENÇÃO: a gravação falhou e não consegui desfazer em: $($notUndone -join ', ')" 'Use o botão "Voltar ao inglês" do programa do menu Iniciar ou reinstale o mod pelo instalador antes de jogar.'
         }
         if ($originalError.Exception.Data.Contains('sugestao')) { throw $originalError }
         $detail = $originalError.Exception.Message
@@ -409,14 +411,14 @@ function Save-GameDir($dir, $source) {
     Write-Json $CONFIG_FILE ([pscustomobject]@{ pastaJogo = $dir; origem = $source; salvoEm = (Get-Date -Format 'yyyy-MM-dd') })
 }
 
-function Select-GameDir([switch]$Force) {
+function Select-GameDir {
     $cfg = Read-Json $CONFIG_FILE
     $saved = Get-Prop $cfg 'pastaJogo'
-    if (-not $Force -and (Test-ValidGameDir $saved)) { return @{ Dir = $saved; Source = (Get-Prop $cfg 'origem') } }
+    if (Test-ValidGameDir $saved) { return @{ Dir = $saved; Source = (Get-Prop $cfg 'origem') } }
 
     $found = @(Find-Game)
     $choice = $null
-    if ($found.Count -eq 1 -and -not $Force) {
+    if ($found.Count -eq 1) {
         $choice = $found[0]
     } elseif ($found.Count -ge 1) {
         if ($NonInteractive) {
@@ -871,9 +873,9 @@ function Show-Pending($pending) {
 # ============================================================
 #  Common setup
 # ============================================================
-function Initialize-Run([switch]$ChangeDir) {
+function Initialize-Run {
     if (-not (Test-Path -LiteralPath $DataDir)) { New-Item -ItemType Directory -Force -Path $DataDir | Out-Null }
-    if ($script:FixedGameDir -and -not $ChangeDir) {
+    if ($script:FixedGameDir) {
         $p = Normalize-PathText $script:FixedGameDir
         if (-not (Test-ValidGameDir $p)) { Throw-FriendlyError "Não achei o Titanfall2.exe em: $p" 'Confira o caminho passado em -GameDir.' }
         $script:Game = (Resolve-Path -LiteralPath $p).Path.TrimEnd('\'); $script:Source = 'informada no comando'
@@ -881,7 +883,7 @@ function Initialize-Run([switch]$ChangeDir) {
         if ((Get-Prop $cfg 'pastaJogo') -eq $script:Game) { $script:Source = [string](Get-Prop $cfg 'origem') }
         else { Save-GameDir $script:Game $script:Source }
     } else {
-        $r = Select-GameDir -Force:$ChangeDir
+        $r = Select-GameDir
         $script:Game = $r.Dir; $script:Source = $r.Source
         $script:FixedGameDir = $null
     }
@@ -977,8 +979,8 @@ function Show-Panel {
         $label = Capitalize $a.Name
         switch (Get-FileStatus $a $state) {
             'translated' { Write-Field $label 'em português' 'Green' }
-            'new-dictionary' { Write-Field $label 'em português (há traduções novas: use a opção 1)' 'Yellow' }
-            'modified-externally' { Write-Field $label 'em português, mas mexido fora da ferramenta (use a opção 1)' 'Yellow' }
+            'new-dictionary' { Write-Field $label 'em português (há traduções novas: traduza de novo)' 'Yellow' }
+            'modified-externally' { Write-Field $label 'em português, mas mexido fora da ferramenta (traduza de novo)' 'Yellow' }
             'original' { Write-Field $label 'em inglês (original do mod)' 'Yellow' }
             default { Write-Field $label 'arquivo não encontrado nesta versão do mod' 'Red' }
         }
@@ -989,6 +991,41 @@ function Show-Panel {
     if ($pending.Count -gt 0) { Write-Field 'Sem tradução' "$($pending.Count) texto(s) do mod ficaram em inglês" 'Yellow' }
     if (Test-OldPackage) { Write-Field 'Atenção' 'há um pacote antigo de tradução instalado: desinstale antes de traduzir' 'Yellow' }
     Write-Field 'Dados da ferramenta' $script:DATA_DIR 'DarkGray'
+}
+
+# One line for the window of the Start menu: only plain ASCII, so no console code page can spoil it.
+function Write-StatusLine($status) {
+    $text = $status | ConvertTo-Json -Depth 4 -Compress
+    $ascii = [regex]::Replace($text, '[^\x00-\x7F]', { param($m) '\u{0:x4}' -f [int][char]$m.Value })
+    [Console]::Out.WriteLine($STATUS_PREFIX + $ascii)
+}
+
+function Get-Status {
+    $state = Read-State
+    $info = Read-Json $BACKUP_INFO_FILE
+    $modInstalled = Test-ModInstalled $script:Game
+    $files = @(foreach ($a in $script:Targets) { [pscustomobject]@{ name = $a.Name; status = (Get-FileStatus $a $state) } })
+    return [pscustomobject]@{
+        version = $VERSION
+        gameDir = $script:Game
+        modInstalled = [bool]$modInstalled
+        modVersion = $(if ($modInstalled) { Get-ModVersion } else { $null })
+        files = $files
+        backupDate = [string](Get-Prop $info 'data')
+        pendingCount = @(Read-Pending).Count
+        issueListPath = (Join-Path $script:DATA_DIR $ISSUE_LIST_FILE_NAME)
+        oldPackage = [bool](Test-OldPackage)
+    }
+}
+
+function Show-StatusLine {
+    try {
+        Initialize-Run
+        Write-StatusLine (Get-Status)
+    } catch {
+        $suggestion = if ($_.Exception.Data.Contains('sugestao')) { [string]$_.Exception.Data['sugestao'] } else { '' }
+        Write-StatusLine ([pscustomobject]@{ version = $VERSION; gameDir = $script:Game; error = $_.Exception.Message; suggestion = $suggestion })
+    }
 }
 
 # ============================================================
@@ -1097,7 +1134,7 @@ function Invoke-Translate {
             $issueText = (@("Pendências do mod $(Get-VersionLabel $modVersion), ferramenta ${script:VERSION}:") + @($pendingItems | ForEach-Object { Get-IssueLine $_ })) -join "`n"
             Replace-File (Join-Path $script:DATA_DIR $ISSUE_LIST_FILE_NAME) ($UTF8_NO_BOM.GetBytes($issueText + "`n"))
         } catch {
-            Throw-FriendlyError "A tradução foi gravada, mas não consegui salvar os dados da ferramenta ($($_.Exception.Message))." 'Rode a opção 1 de novo para terminar. O backup do original continua guardado.'
+            Throw-FriendlyError "A tradução foi gravada, mas não consegui salvar os dados da ferramenta ($($_.Exception.Message))." 'Traduza de novo para terminar. O backup do original continua guardado.'
         }
         return ''
     }
@@ -1154,12 +1191,12 @@ function Invoke-Restore {
             foreach ($f in $todo) { $state.Files.Remove($f.Target.Rel) }
             Write-State $state
         } catch {
-            Throw-FriendlyError "Os originais voltaram, mas não consegui salvar os dados da ferramenta ($($_.Exception.Message))." 'Rode a opção 2 de novo para terminar.'
+            Throw-FriendlyError "Os originais voltaram, mas não consegui salvar os dados da ferramenta ($($_.Exception.Message))." 'Volte ao inglês de novo para terminar.'
         }
         return ''
     }
     $restoredLines = @('Os textos do mod voltaram para o inglês.')
-    if (-not $Uninstalling) { $restoredLines += 'Para traduzir de novo, use a opção 1.' }
+    if (-not $Uninstalling) { $restoredLines += 'Para traduzir de novo, abra o programa no menu Iniciar.' }
     Write-Box 'Originais restaurados' $restoredLines 'Cyan'
     return 0
 }
@@ -1176,9 +1213,11 @@ $script:InstallerWarning = $false; $script:FixedGameDir = $GameDir
 # The executable does the elevation, never this script: running a file from the user's folder as
 # administrator would let any ordinary program swap what runs. Here we only leave the request, and the exe takes over.
 function Request-Elevation($action) {
-    W ''
-    Warn 'Para gravar na pasta do jogo, o Windows exige permissão de administrador.'
-    Hint 'O aviso do Windows mostra o nome Titanfall2VR-PTBR.exe, com editor desconhecido, porque o programa não tem assinatura digital. Abre outra janela, e esta espera.'
+    if (-not $NoPrompt) {
+        W ''
+        Warn 'Para gravar na pasta do jogo, o Windows exige permissão de administrador.'
+        Hint 'O aviso do Windows mostra o nome Titanfall2VR-PTBR.exe, com editor desconhecido, porque o programa não tem assinatura digital. Abre outra janela, e esta espera.'
+    }
     [IO.File]::WriteAllText((Join-Path $DataDir 'elevation-request.txt'), "$action`n$($script:Game)`n", $UTF8_NO_BOM)
     return $EXIT_NEEDS_ELEVATION
 }
@@ -1214,52 +1253,16 @@ function Invoke-Action($action) {
 }
 
 try {
-    if ($Action -ne 'Menu') {
-        if ($Action -ne 'Status' -and -not $NonInteractive) { Show-Header }
-        Initialize-Run
-        $code = Invoke-Action $Action
-        if ($Pause) { Wait-Enter }
-        exit $code
-    }
-
-    Show-Header
+    if ($Json) { Show-StatusLine; exit 0 }
+    if ($Action -ne 'Status' -and -not $NonInteractive) { Show-Header }
     Initialize-Run
-    $msg = $null
-    while ($true) {
-        try { Load-Targets } catch { $msg = $_.Exception.Message }
-        Show-Panel
-        Write-SectionTitle 'O que você quer fazer?'
-        W '  [1] ' 'Cyan' -n; W 'Traduzir para português' 'White'
-        W '  [2] ' 'Cyan' -n; W 'Voltar aos textos originais (inglês)' 'White'
-        W '  [3] ' 'Cyan' -n; W 'Trocar a pasta do jogo' 'White'
-        W '  [0] ' 'DarkGray' -n; W 'Sair' 'DarkGray'
-        if ($msg) { W ''; Warn $msg; $msg = $null }
-        $op = Ask 'Opção:'
-        if ($null -eq $op) { exit 0 }
-        switch ($op) {
-            '1' { Show-Header; Write-SectionTitle 'Traduzindo'; if (@(Invoke-Action 'Translate')[-1] -eq $EXIT_NEEDS_ELEVATION) { exit $EXIT_NEEDS_ELEVATION }; Wait-Enter; Show-Header }
-            '2' { Show-Header; Write-SectionTitle 'Restaurando os originais'; if (@(Invoke-Action 'Restore')[-1] -eq $EXIT_NEEDS_ELEVATION) { exit $EXIT_NEEDS_ELEVATION }; Wait-Enter; Show-Header }
-            '3' {
-                Show-Header
-                $previous = @{ Game = $script:Game; Source = $script:Source }
-                try { Initialize-Run -ChangeDir }
-                catch {
-                    $reason = $_.Exception.Message
-                    $script:Game = $previous.Game; $script:Source = $previous.Source
-                    Save-GameDir $script:Game $script:Source
-                    Load-Targets
-                    $msg = "Troca cancelada ($reason). A pasta continua: $($script:Game)"
-                }
-                Show-Header
-            }
-            '0' { W ''; exit 0 }
-            default { Show-Header; $msg = "Opção inválida: '$op'. Digite 1, 2, 3 ou 0." }
-        }
-    }
+    $code = Invoke-Action $Action
+    if ($Pause) { Wait-Enter }
+    exit $code
 } catch {
     W ''
     Fail $_.Exception.Message
     if ($_.Exception.Data.Contains('sugestao')) { Hint $_.Exception.Data['sugestao'] }
-    if ($Pause -or $Action -eq 'Menu') { Wait-Enter }
+    if ($Pause) { Wait-Enter }
     exit 1
 }

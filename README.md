@@ -19,13 +19,13 @@
 [![Idioma](https://img.shields.io/badge/idioma-pt--BR-informational?style=flat)](tool/translations/RULES.md)
 [![Mod](https://img.shields.io/badge/mod%20VR-1.0.25%20conferido-informational?style=flat)](https://github.com/CircuitLord/CircuitLordVRModInstaller)
 
-[Como instalar](#-como-instalar) · [Guia completo](docs/installation.md) · [Baixar](https://github.com/scarletmodder/titanfall2-vr-ptbr/releases/latest) · [Changelog](CHANGELOG.md)
+[Como instalar](#-como-instalar) · [O programa](#%EF%B8%8F-o-programa-do-menu-iniciar) · [Guia completo](docs/installation.md) · [Baixar](https://github.com/scarletmodder/titanfall2-vr-ptbr/releases/latest) · [Changelog](CHANGELOG.md)
 
 <img alt="Tela de boas-vindas do instalador da tradução" src="docs/images/installer-1-welcome.png" width="560">
 
 </div>
 
-**Neste documento:** [Como instalar](#-como-instalar) · [Por que existe](#-por-que-existe) · [O que muda](#-o-que-muda) · [Uso](#-uso) · [Segurança](#-segurança-e-privacidade) · [Como funciona](#%EF%B8%8F-como-funciona) · [Problemas comuns](#-problemas-comuns) · [Estado](#%EF%B8%8F-estado-atual)
+**Neste documento:** [Como instalar](#-como-instalar) · [O programa](#%EF%B8%8F-o-programa-do-menu-iniciar) · [Por que existe](#-por-que-existe) · [O que muda](#-o-que-muda) · [Uso](#-uso) · [Segurança](#-segurança-e-privacidade) · [Como funciona](#%EF%B8%8F-como-funciona) · [Problemas comuns](#-problemas-comuns) · [Estado](#%EF%B8%8F-estado-atual)
 
 ## 🚀 Como instalar
 
@@ -43,12 +43,22 @@ Você precisa do Titanfall 2 com o [mod VR do CircuitLord](https://github.com/Ci
 
 A pasta que aparece nas capturas é um exemplo. Na sua máquina, o instalador procura o jogo sozinho e você pode trocar a pasta.
 
-O instalador não tem opções numeradas, só as telas acima. Depois de instalar, fica no menu Iniciar um programa chamado "Tradução PT-BR do mod Titanfall 2 VR". As opções `[1]`, `[2]` e `[3]` citadas nesta página são desse programa.
-
-Para voltar ao inglês, desinstale "Tradução PT-BR do mod Titanfall 2 VR" pela lista de aplicativos do Windows.
-
 > [!TIP]
 > O passo a passo com cada mensagem, a desinstalação e a lista de problemas estão no [guia de instalação](docs/installation.md).
+
+## 🖥️ O programa do menu Iniciar
+
+Depois de instalar, fica no menu Iniciar o programa "Tradução PT-BR do mod Titanfall 2 VR". Ele abre uma janela que mostra em que idioma o jogo está e tem um botão para cada coisa que você pode querer fazer:
+
+| Em inglês | Em português |
+|---|---|
+| <img alt="Janela do programa com o jogo em inglês" src="docs/images/program-1-english.png" width="400"> | <img alt="Janela do programa com a tradução aplicada" src="docs/images/program-2-portuguese.png" width="400"> |
+
+- **Traduzir para português**, que vira **Reaplicar a tradução** depois da primeira vez.
+- **Voltar ao inglês**, sem desinstalar nada.
+- **Trocar pasta...**, para escolher a pasta que tem o `Titanfall2.exe`.
+
+A pasta que aparece nas capturas é um exemplo.
 
 ## 🎯 Por que existe
 
@@ -75,7 +85,7 @@ Troca os textos em inglês dos arquivos do mod pela tradução, depois de guarda
 Devolve os arquivos exatamente como estavam antes da tradução. ✅ pronto
 
 **Atualizar com o mod**<br/>
-O instalador do mod desfaz a tradução a cada atualização. Abra "Tradução PT-BR do mod Titanfall 2 VR" no menu Iniciar e escolha a opção `[1]`: se nada mudou, a ferramenta avisa e não grava nada. ✅ pronto
+O instalador do mod desfaz a tradução a cada atualização. Abra "Tradução PT-BR do mod Titanfall 2 VR" no menu Iniciar e clique em **Reaplicar a tradução**: se nada mudou, o programa avisa e não grava nada. ✅ pronto
 
 **Desinstalar pela lista de aplicativos**<br/>
 O instalador cria a entrada "Tradução PT-BR do mod Titanfall 2 VR" na lista do Windows. Desinstalar por lá devolve os originais e apaga os dados da ferramenta. ✅ pronto (a desinstalação foi conferida abrindo o desinstalador direto; o clique pela página de aplicativos do Windows ainda não)
@@ -88,12 +98,12 @@ Ele guarda só o hash do texto em inglês e a tradução. A linha real vem do mo
 | Eu quero | O que faço | O que acontece |
 |---|---|---|
 | Traduzir | Rodo o instalador até o fim | O mod fica em português e o original vai para um backup |
-| Voltar ao inglês | Abro o programa no menu Iniciar e escolho `[2] Voltar aos textos originais (inglês)` | Os arquivos voltam byte a byte ao que eram |
-| Trocar a pasta do jogo | No programa do menu Iniciar, escolho `[3] Trocar a pasta do jogo` | O programa procura de novo ou pede a pasta com o `Titanfall2.exe` |
-| Atualizar depois do mod | No programa do menu Iniciar, escolho `[1]` de novo | Se nada mudou, aparece "Tudo atualizado" e nada é gravado |
+| Voltar ao inglês | Abro o programa no menu Iniciar e clico em **Voltar ao inglês** | Os arquivos voltam byte a byte ao que eram |
+| Trocar a pasta do jogo | No programa do menu Iniciar, clico em **Trocar pasta...** | Escolho a pasta com o `Titanfall2.exe` e a janela mostra a situação dela |
+| Atualizar depois do mod | No programa do menu Iniciar, clico em **Reaplicar a tradução** | Se nada mudou, a janela avisa que nenhum arquivo foi alterado |
 | Remover tudo | Configurações do Windows, Aplicativos, Aplicativos instalados | Os originais voltam e os dados da ferramenta são apagados |
 
-Se o mod atualizar e trouxer texto novo, esse texto fica em inglês e o resto continua traduzido. O programa mostra uma lista pronta para colar numa [issue](https://github.com/scarletmodder/titanfall2-vr-ptbr/issues) (um aviso aberto no GitHub), só com chave e hash, sem texto do mod.
+Se o mod atualizar e trouxer texto novo, esse texto fica em inglês e o resto continua traduzido. O programa mostra o botão **Copiar textos sem tradução**, com uma lista pronta para colar numa [issue](https://github.com/scarletmodder/titanfall2-vr-ptbr/issues) (um aviso aberto no GitHub), só com chave e hash, sem texto do mod.
 
 ## 🔒 Segurança e privacidade
 
@@ -107,7 +117,7 @@ Se o mod atualizar e trouxer texto novo, esse texto fica em inglês e o resto co
 
 ## 🏗️ Como funciona
 
-O instalador coloca um programa pequeno na sua pasta de usuário e o roda para aplicar a tradução. Esse programa carrega dentro de si a ferramenta em PowerShell e o dicionário, roda no seu computador, não fala com servidor nenhum e só mexe nos arquivos de texto do mod.
+O instalador coloca dois programas pequenos na sua pasta de usuário: a janela do menu Iniciar e a ferramenta que aplica a tradução. A ferramenta carrega dentro de si o script em PowerShell e o dicionário, roda no seu computador, não fala com servidor nenhum e só mexe nos arquivos de texto do mod. O instalador e a janela usam a mesma ferramenta, sem abrir terminal.
 
 **Contexto: com quem o programa conversa no seu computador.**
 
@@ -120,13 +130,14 @@ flowchart TB
     classDef external  fill:#8a8a8a,stroke:#6b6b6b,color:#ffffff
     classDef optional  fill:#8a8a8a,stroke:#6b6b6b,color:#ffffff,stroke-dasharray:5 5
 
-    pessoa["Quem joga<br/>escolhe no menu"]:::person
+    pessoa["Quem joga<br/>clica nos botões"]:::person
     instalador["CircuitLord VR Mod Installer<br/>instala e atualiza o mod"]:::external
     issues["Issues no GitHub<br/>a pessoa cola as pendências"]:::optional
 
     subgraph pc["Computador de quem joga"]
         setup["Instalador<br/>Inno Setup"]:::system
-        exe["Titanfall2VR-PTBR.exe<br/>C#, .NET Framework"]:::system
+        janela["Titanfall2VR-PTBR-Window.exe<br/>janela, C#, .NET Framework"]:::system
+        exe["Titanfall2VR-PTBR.exe<br/>ferramenta, C#, .NET Framework"]:::system
         script["Ferramenta e dicionário<br/>PowerShell, extraídos do exe"]:::container
         uac["Aviso de administrador<br/>Windows"]:::external
         fontes["Fontes de detecção<br/>registro e libraryfolders.vdf"]:::external
@@ -137,7 +148,8 @@ flowchart TB
 
     pessoa -->|"instala e desinstala"| setup
     setup -->|"coloca e roda"| exe
-    pessoa -->|"abre pelo menu Iniciar"| exe
+    pessoa -->|"abre pelo menu Iniciar"| janela
+    janela -->|"roda sem janela e mostra o resultado"| exe
     exe -->|"extrai e roda"| script
     exe -->|"só se o script pedir"| uac
     uac -->|"aceite reabre o exe elevado"| exe
@@ -153,16 +165,17 @@ flowchart TB
 As linhas tracejadas marcam o que o código não controla: a ação manual de abrir uma issue e o que o instalador do mod faz, que se infere porque ele tem código fechado.
 
 <details>
-<summary>Sequência da opção Traduzir e estados de um arquivo do mod</summary>
+<summary>Sequência do botão Traduzir e estados de um arquivo do mod</summary>
 
-**Sequência: o que acontece, em ordem, quando a tradução é aplicada, pelo instalador ou pela opção 1 do programa.**
+**Sequência: o que acontece, em ordem, quando a tradução é aplicada pelo botão da janela. O instalador segue o mesmo caminho, no lugar da janela.**
 
 ```mermaid
 sequenceDiagram
     autonumber
     actor P as Quem joga
-    participant E as Exe comum
-    participant S as Ferramenta<br/>PowerShell
+    participant J as Janela do<br/>menu Iniciar
+    participant E as Ferramenta<br/>exe comum
+    participant S as Script<br/>PowerShell
     participant D as Dados comuns<br/>%LOCALAPPDATA%
     participant M as Arquivos do mod
     participant U as Aviso do Windows
@@ -170,19 +183,23 @@ sequenceDiagram
     participant A as Dados de admin<br/>%ProgramData%
 
     rect rgba(67,141,213,0.12)
-        P->>E: Abre o exe
+        P->>J: Abre o programa
+        J->>E: Pede a situação do jogo, sem janela
         E->>D: Extrai script e dicionário, conferindo SHA-256
         E->>S: Roda no Windows PowerShell
         S->>D: Lê a pasta salva ou procura o jogo
-        S-->>P: Painel e menu
-        P->>S: Opção 1, Traduzir para português
+        S-->>J: Situação, em uma linha
+        J-->>P: Mostra a situação e os botões
+        P->>J: Clica em Traduzir para português
+        J->>E: Roda a tradução, sem janela
+        E->>S: Roda no Windows PowerShell
     end
 
     rect rgba(106,61,154,0.12)
         S->>M: Mod presente, sem pacote antigo, backup desta pasta
         S->>M: Etapa 1, compara marca e hash de cada alvo
         alt Nada mudou
-            S-->>P: Tudo atualizado, nada foi gravado
+            S-->>J: Tudo atualizado, nada foi gravado
         else Há arquivo para traduzir
             S->>M: Etapa 2, jogo fechado, sem link, teste de gravação
             alt Gravação liberada
@@ -190,32 +207,34 @@ sequenceDiagram
                 S->>D: Etapa 4, guarda o original e confere o hash
                 S->>M: Etapa 5, grava em lote, desfaz se falhar
                 S->>D: Grava estado e pendências
-                S-->>P: Tradução aplicada
+                S-->>J: Tradução aplicada
             else Windows nega ou dados são de admin
                 S->>D: Grava o pedido de permissão
                 S-->>E: Sai com o código 20
                 E->>U: Reabre o exe como administrador
                 alt Pessoa recusa
                     U-->>E: Cancelado
-                    E-->>P: Permissão recusada, nada foi alterado
+                    E-->>J: Permissão recusada, nada foi alterado
                 else Pessoa aceita
                     U->>X: Inicia o exe elevado
                     X->>A: Extrai em run-guid e confere cada hash
                     X->>A: Roda a cópia conferida, etapas 1 a 5
                     X->>M: Grava a tradução em lote
                     X->>A: Apaga run-guid
-                    X-->>P: Tradução aplicada, Enter para seguir
+                    X-->>E: O que a etapa disse, num arquivo
+                    E-->>J: Repete o que a etapa disse
                 end
             end
         end
     end
 
     rect rgba(46,125,50,0.12)
-        E-->>P: Volta ao menu ou encerra com o código do resultado
+        E-->>J: Encerra com o código do resultado
+        J-->>P: Mostra o resultado e a nova situação
     end
 ```
 
-**Estados: por onde cada um dos cinco arquivos de texto do mod passa. "Opção 1" e "opção 2" são as do programa do menu Iniciar.**
+**Estados: por onde cada um dos cinco arquivos de texto do mod passa. "Traduzir" e "Voltar ao inglês" são os botões da janela.**
 
 ```mermaid
 stateDiagram-v2
@@ -240,17 +259,17 @@ stateDiagram-v2
     [*] --> Original: mod instalado
     [*] --> Ausente: mod sem esse arquivo
     Ausente --> Original: mod passa a ter o arquivo
-    Original --> ComBackup: opção 1, etapa 4
+    Original --> ComBackup: Traduzir, etapa 4
     ComBackup --> Traduzido: etapa 5, lote gravado
     ComBackup --> Original: lote falha e é desfeito
     Traduzido --> DicNovo: dicionário muda
     Traduzido --> MexidoFora: arquivo muda fora da ferramenta
-    DicNovo --> Traduzido: opção 1, retraduz do backup
-    MexidoFora --> Traduzido: opção 1, retraduz do backup
-    Traduzido --> Restaurado: opção 2
-    DicNovo --> Restaurado: opção 2
-    MexidoFora --> Restaurado: opção 2
-    Restaurado --> ComBackup: opção 1, etapa 4
+    DicNovo --> Traduzido: Traduzir, retraduz do backup
+    MexidoFora --> Traduzido: Traduzir, retraduz do backup
+    Traduzido --> Restaurado: Voltar ao inglês
+    DicNovo --> Restaurado: Voltar ao inglês
+    MexidoFora --> Restaurado: Voltar ao inglês
+    Restaurado --> ComBackup: Traduzir, etapa 4
     Traduzido --> Original: instalador troca o arquivo (inferida)
     Traduzido --> Bloqueado: backup apagado ou alterado
     Bloqueado --> Original: reinstalar o mod (inferida)
@@ -276,11 +295,11 @@ Para quem contribui: as regras do dicionário estão em [tool/translations/RULES
 | Sintoma na tela | Causa provável | O que fazer |
 |---|---|---|
 | `O Titanfall 2 está aberto.` | O jogo está rodando | Feche o jogo e tente de novo |
-| `O mod Titanfall 2 VR não está instalado nesta pasta.` | A pasta escolhida não tem o mod | No programa do menu Iniciar, escolha `[3]` e indique a pasta certa, ou instale o mod antes |
+| `O mod Titanfall 2 VR não está instalado nesta pasta.` | A pasta escolhida não tem o mod | No programa do menu Iniciar, clique em **Trocar pasta...** e indique a pasta certa, ou instale o mod antes |
 | `Este jogo tem um pacote antigo de tradução instalado ("Titanfall 2 VR em Português").` | O pacote antigo altera os mesmos arquivos | Desinstale em Configurações do Windows, Aplicativos, e rode de novo |
 | `O arquivo ... está aberto em outro programa.` | O EA app, a Steam ou o instalador do mod estão verificando o jogo | Espere terminarem e tente de novo |
 | `Nem como administrador o Windows deixou gravar em ...` | O arquivo está marcado como somente leitura | Botão direito no arquivo, Propriedades, desmarque "Somente leitura" |
-| `N texto(s) do mod ainda não têm tradução e aparecem em inglês no jogo.` | O mod atualizou e trouxe texto novo | Pode jogar. Para ajudar, cole a lista numa issue |
+| `N texto(s) do mod ainda não têm tradução e aparecem em inglês no jogo.` | O mod atualizou e trouxe texto novo | Pode jogar. Para ajudar, clique em **Copiar textos sem tradução** e cole a lista numa issue |
 
 > [!WARNING]
 > Apagar a pasta de dados da ferramenta com o jogo ainda traduzido perde a cópia do original. Use a desinstalação pela lista de aplicativos do Windows, que devolve os originais antes de apagar.
@@ -293,6 +312,7 @@ Mais casos, como a recusa de abrir de dentro de outro aplicativo, estão no [gui
 |---|---|---|
 | Tradução dos textos do mod 1.0.25 | ✅ pronto | 196 textos traduzidos e nenhum pendente, no mod instalado, e jogo testado no headset |
 | Voltar ao inglês | ✅ pronto | O backup de cada arquivo tem hash igual ao do original, e os testes automáticos provam a restauração |
+| Programa com janela no menu Iniciar | ✅ pronto | Testes automáticos que clicam nos botões, e uso num computador real com o jogo instalado: reaplicar, voltar ao inglês e traduzir de novo, com os arquivos conferidos por hash. A escolha de pasta foi conferida com um jogo de teste. O aviso de administrador do Windows, pela janela, só foi simulado nos testes |
 | Instalador com telas | ✅ pronto | Testes automáticos e uma instalação pelas telas num computador real, sem pedido de permissão e com os 5 arquivos traduzidos conferidos |
 | Antivírus no instalador | ⚠️ medido em uma máquina | Microsoft Defender sem nenhum alerta 54 minutos depois de instalar |
 | Desinstalar | ✅ pronto | Testes automáticos e uma desinstalação real, com o desinstalador aberto direto: os 5 arquivos voltaram idênticos aos originais, e programa, dados, atalho e entrada saíram |

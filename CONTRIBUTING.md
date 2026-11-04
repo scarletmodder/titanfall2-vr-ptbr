@@ -23,6 +23,17 @@ python -m ruff check scripts tests
 python -m mypy
 ```
 
+Se você mexeu no exe, na janela ou no instalador, compile e rode também os testes deles. O teste da janela abre o programa e clica nos botões, e por isso precisa de uma sessão do Windows com a área de trabalho aberta:
+
+```powershell
+powershell -File scripts\build.ps1
+powershell -File tests\test-exe.ps1
+powershell -File tests\test-window.ps1
+powershell -File tests\test-installer.ps1
+```
+
+São dois programas: `Titanfall2VR-PTBR.exe` é a ferramenta sem janela (`src\Launcher.cs`), usada pelo instalador, e `Titanfall2VR-PTBR-Window.exe` é a janela do menu Iniciar (`src\Window.cs`), que só chama a ferramenta.
+
 Os testes são scripts próprios, não pytest, porque o que importa exercitar está em PowerShell e no exe.
 
 Os testes usam um mod sintético (`tests\synthetic.ps1`), com frases inventadas. Quem tem o mod instalado pode conferir também numa cópia, nunca na instalação real, com `tests\test-mod-copy.ps1`.

@@ -1,5 +1,6 @@
-// Translation launcher: extracts the embedded script and dictionary to the user's data folder
+// Translation tool: extracts the embedded script and dictionary to the user's data folder
 // and runs Windows PowerShell. No dependency beyond the .NET Framework that ships with Windows.
+// People use it through the window of the Start menu (Window.cs) and through the installer, both without a console.
 //
 // Elevated stage: nothing from the user's folder is executed or read as administrator. The exe
 // reopens itself elevated, extracts script and dictionary into a new, administrators-only folder, checks the hash
@@ -40,12 +41,16 @@ internal static class Launcher
     private const string CleanupAction = "Cleanup";
     private const string RestoreUninstallingAction = "RestoreUninstalling";
     private const string ExeName = "Titanfall2VR-PTBR.exe";
+    private const string WindowExeName = "Titanfall2VR-PTBR-Window.exe";
     private const string ProductName = "Tradução PT-BR do mod Titanfall 2 VR";
     private const string RepositoryUrl = "https://github.com/scarletmodder/titanfall2-vr-ptbr";
     private const string UninstallKey = @"Software\Microsoft\Windows\CurrentVersion\Uninstall\Titanfall2VR-PTBR";
     // Backup folder name of the on-disk format: its presence means there may be something to restore.
     private const string BackupFolder = "backup";
     private const string RequestFile = "elevation-request.txt";
+    // What the hidden administrator stage said, in the administrators' data folder, which users can read.
+    private const string ElevatedOutputFile = "elevated-output.txt";
+    private const long ElevatedOutputLimit = 1024 * 1024;
     private const int ExitNeedsElevation = 20;
     private const int ExitNoPermission = 3;
     private const int ExitVirtualized = 4;
@@ -61,6 +66,10 @@ internal static class Launcher
     {
         wizard = HasArgument(args, WizardArgument);
         args = Without(args, WizardArgument);
+        if (args.Length == 0 && !wizard)
+        {
+            return OpenWindow();
+        }
         bool elevated = args.Length > 0 && args[0] == ElevatedArgument;
         try
         {
@@ -82,13 +91,30 @@ internal static class Launcher
         catch (Exception error)
         {
             Console.Error.WriteLine("Não consegui iniciar a ferramenta: " + error.Message);
-            if ((args.Length == 0 || elevated) && !wizard)
+            if (elevated && wizard)
+            {
+                KeepElevatedFailure(error.Message);
+            }
+            if (elevated && !wizard)
             {
                 Console.Error.WriteLine("Aperte Enter para fechar.");
                 Console.ReadLine();
             }
             return 1;
         }
+    }
+
+    // Opened by hand, with nothing to do: this is the program with the window.
+    private static int OpenWindow()
+    {
+        string window = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), WindowExeName);
+        if (!File.Exists(window))
+        {
+            Console.Error.WriteLine("Não achei " + WindowExeName + " nesta pasta. Instale de novo para trazê-lo de volta.");
+            return 1;
+        }
+        Process.Start(window).Dispose();
+        return 0;
     }
 
     private static int NormalStage(string[] args)
@@ -103,7 +129,7 @@ internal static class Launcher
             string virtualCopy = VirtualizedCopy(data);
             if (virtualCopy != null)
             {
-                return RefuseVirtualized(virtualCopy, args);
+                return RefuseVirtualized(virtualCopy);
             }
             if (!IsManaged())
             {
@@ -111,26 +137,8 @@ internal static class Launcher
             }
         }
 
-        bool menuMode = !HasArgument(args, "-Action");
-        while (true)
-        {
-            int code = RunNormal(Path.Combine(app, Script), data, args);
-            if (code != ExitNeedsElevation)
-            {
-                return code;
-            }
-            int elevated = RequestElevation(data);
-            if (!menuMode)
-            {
-                return elevated;
-            }
-            // The menu clears the screen next, and the refusal message would go with it.
-            if (elevated == ExitNoPermission && !Console.IsInputRedirected)
-            {
-                Console.WriteLine("Aperte Enter para continuar.");
-                Console.ReadLine();
-            }
-        }
+        int code = RunNormal(Path.Combine(app, Script), data, args);
+        return code == ExitNeedsElevation ? RequestElevation(data) : code;
     }
 
     private static bool ShouldRegister(string[] args)
@@ -195,7 +203,7 @@ internal static class Launcher
 #endif
     }
 
-    private static int RefuseVirtualized(string copy, string[] args)
+    private static int RefuseVirtualized(string copy)
     {
         // What this launch just extracted goes away. A copy holding a backup is someone's data and stays.
         if (!Directory.Exists(Path.Combine(copy, BackupFolder)))
@@ -209,12 +217,7 @@ internal static class Launcher
         }
         Console.WriteLine("Este programa foi aberto de dentro de outro aplicativo, e o Windows guardaria os dados numa área");
         Console.WriteLine("separada, onde a desinstalação não os encontraria. Nada foi alterado no jogo.");
-        Console.WriteLine("Abra pelo Explorador de Arquivos, com dois cliques no arquivo.");
-        if (args.Length == 0)
-        {
-            Console.WriteLine("Aperte Enter para fechar.");
-            Console.ReadLine();
-        }
+        Console.WriteLine("Abra pelo menu Iniciar do Windows.");
         return ExitVirtualized;
     }
 
@@ -549,11 +552,11 @@ internal static class Launcher
         return RunPowerShell(arguments, null);
     }
 
-    private static int RunPowerShell(List<string> arguments, string workingDir)
+    private static int RunPowerShell(List<string> arguments, string workingDir, string outputFile = null)
     {
         string system = Environment.GetFolderPath(Environment.SpecialFolder.System);
         string powershell = Path.Combine(system, @"WindowsPowerShell\v1.0\powershell.exe");
-        ProcessStartInfo startInfo = new ProcessStartInfo(powershell, JoinArguments(arguments));
+        ProcessStartInfo startInfo = new ProcessStartInfo(powershell, CommandLine.Join(arguments));
         startInfo.UseShellExecute = false;
                 // Started from PowerShell 7, the exe would inherit modules that Windows PowerShell does not load.
         startInfo.EnvironmentVariables.Remove("PSModulePath");
@@ -561,10 +564,104 @@ internal static class Launcher
         {
             startInfo.WorkingDirectory = workingDir;
         }
+        if (outputFile != null)
+        {
+            startInfo.RedirectStandardOutput = true;
+            startInfo.RedirectStandardError = true;
+            startInfo.StandardOutputEncoding = Encoding.UTF8;
+            startInfo.StandardErrorEncoding = Encoding.UTF8;
+        }
         using (Process process = Process.Start(startInfo))
         {
+            if (outputFile != null)
+            {
+                KeepOutput(process, outputFile);
+            }
             process.WaitForExit();
             return process.ExitCode;
+        }
+    }
+
+    private static void KeepOutput(Process process, string outputFile)
+    {
+        StringBuilder errors = new StringBuilder();
+        process.ErrorDataReceived += delegate (object sender, DataReceivedEventArgs line)
+        {
+            if (line.Data != null)
+            {
+                lock (errors)
+                {
+                    errors.AppendLine(line.Data);
+                }
+            }
+        };
+        process.BeginErrorReadLine();
+        string output = process.StandardOutput.ReadToEnd();
+        process.WaitForExit();
+        lock (errors)
+        {
+            WriteElevatedOutput(outputFile, output + errors);
+        }
+    }
+
+    private static void WriteElevatedOutput(string outputFile, string text)
+    {
+        try
+        {
+            File.WriteAllText(outputFile, text, new UTF8Encoding(false));
+        }
+        catch (IOException)
+        {
+        }
+        catch (UnauthorizedAccessException)
+        {
+        }
+    }
+
+    // What stopped the hidden stage before its script said anything. In a folder that cannot be trusted nothing is
+    // written, and the normal stage only has the exit code to show.
+    private static void KeepElevatedFailure(string reason)
+    {
+        string file = Path.Combine(AdminDataDir(), ElevatedOutputFile);
+        try
+        {
+            if (IsTrustedOutput(file))
+            {
+                WriteElevatedOutput(file, reason + Environment.NewLine);
+                FixOwner(AdminDataDir());
+            }
+        }
+        catch (IOException)
+        {
+        }
+        catch (UnauthorizedAccessException)
+        {
+        }
+    }
+
+    private static bool IsTrustedOutput(string file)
+    {
+        string dir = Path.GetDirectoryName(file);
+        return Directory.Exists(dir) && IsTrustedEntry(dir) && (!File.Exists(file) || IsTrustedEntry(file));
+    }
+
+    // The window of that stage is hidden, so what it said about the result is brought here. A file older than this run
+    // is from another run, and one that an ordinary process could have prepared is not believed: neither is repeated.
+    private static void RepeatElevatedOutput(DateTime startedUtc)
+    {
+        string file = Path.Combine(AdminDataDir(), ElevatedOutputFile);
+        try
+        {
+            if (File.Exists(file) && IsTrustedOutput(file) && new FileInfo(file).Length <= ElevatedOutputLimit && File.GetLastWriteTimeUtc(file) >= startedUtc)
+            {
+                Console.Write(File.ReadAllText(file, Encoding.UTF8));
+            }
+        }
+        catch (IOException)
+        {
+        }
+        catch (UnauthorizedAccessException)
+        {
         }
     }
 
@@ -589,7 +686,8 @@ internal static class Launcher
         {
             arguments.Add(WizardArgument);
         }
-        ProcessStartInfo startInfo = new ProcessStartInfo(Assembly.GetExecutingAssembly().Location, JoinArguments(arguments));
+        ProcessStartInfo startInfo = new ProcessStartInfo(Assembly.GetExecutingAssembly().Location, CommandLine.Join(arguments));
+        DateTime startedUtc = DateTime.UtcNow.AddSeconds(-2);
 #if SIMULATE_UAC
         startInfo.UseShellExecute = false;
         if (Environment.GetEnvironmentVariable("TF2VR_TEST_REFUSE") == "1")
@@ -610,10 +708,13 @@ internal static class Launcher
             using (Process process = Process.Start(startInfo))
             {
                 process.WaitForExit();
-                // The window of that stage is hidden, so its own words about the failure are lost.
-                if (wizard && process.ExitCode != 0)
+                if (wizard)
                 {
-                    Console.WriteLine("A etapa com permissão de administrador falhou (código " + process.ExitCode + "). Abra o programa pelo menu Iniciar para ver o motivo.");
+                    RepeatElevatedOutput(startedUtc);
+                    if (process.ExitCode != 0)
+                    {
+                        Console.WriteLine("A etapa com permissão de administrador falhou (código " + process.ExitCode + ").");
+                    }
                 }
                 return process.ExitCode;
             }
@@ -662,6 +763,7 @@ internal static class Launcher
         AdminOnlyFolder(data, true);
         string runDir = Path.Combine(AdminRoot(), "run-" + Guid.NewGuid().ToString("N"));
         AdminOnlyFolder(runDir, false);
+        string outputFile = wizard ? Path.Combine(data, ElevatedOutputFile) : null;
         try
         {
             Extract(runDir);
@@ -689,7 +791,7 @@ internal static class Launcher
             {
                 arguments.Add("-NoPrompt");
             }
-            int code = RunPowerShell(arguments, runDir);
+            int code = RunPowerShell(arguments, runDir, outputFile);
 #if !SIMULATE_UAC
             // This window closes on its own: the reason for the failure must be read before that.
             if (uninstalling && code != 0 && !wizard)
@@ -938,44 +1040,5 @@ internal static class Launcher
             }
         }
         return rest.ToArray();
-    }
-
-    private static string JoinArguments(IEnumerable<string> arguments)
-    {
-        StringBuilder line = new StringBuilder();
-        foreach (string a in arguments)
-        {
-            if (line.Length > 0)
-            {
-                line.Append(' ');
-            }
-            line.Append(QuoteArgument(a));
-        }
-        return line.ToString();
-    }
-
-    // Windows command-line quoting rules: backslashes before quotes are doubled.
-    private static string QuoteArgument(string a)
-    {
-        if (a.Length > 0 && a.IndexOfAny(new char[] { ' ', '\t', '"' }) < 0)
-        {
-            return a;
-        }
-        StringBuilder output = new StringBuilder("\"");
-        int slashes = 0;
-        foreach (char c in a)
-        {
-            if (c == '\\')
-            {
-                slashes++;
-                continue;
-            }
-            output.Append('\\', c == '"' ? slashes * 2 + 1 : slashes);
-            slashes = 0;
-            output.Append(c);
-        }
-        output.Append('\\', slashes * 2);
-        output.Append('"');
-        return output.ToString();
     }
 }

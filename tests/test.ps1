@@ -299,14 +299,22 @@ try {
     Check ($r.Code -eq 1 -and $r.Out -match 'aberto em outro programa') 'explains that another program is using it'
     Check (AllOriginal) 'nothing was written'
 
-    Write-Host "`n[18] Remembered folder, menu and cancelled change"
+    Write-Host "`n[18] Remembered folder and the status line of the window"
     $r = Run 'Status' (G)
     $r = Run 'Status'
     Check ($r.Out.Contains($GAME)) 'without -GameDir, uses the saved folder'
-    $r = Run 'Menu' @() $DIC "9`n0`n"
-    Check ($r.Code -eq 0 -and $r.Out -match 'Opção inválida') 'invalid option asks again, 0 exits'
-    $r = Run 'Menu' @() $DIC "3`n`n0`n"
-    Check ($r.Out -match 'Troca cancelada|Pasta do jogo') 'cancelling the folder change goes back to the menu'
+    function StatusLine([string[]]$extra = @()) {
+        $r = Run 'Status' (@('-Json') + $extra)
+        $line = @($r.Out -split "`n" | Where-Object { $_ -like 'TF2VR_STATUS:*' })
+        if ($line.Count -ne 1) { return $null }
+        return ($line[0].Substring(13).Trim() | ConvertFrom-Json)
+    }
+    $s = StatusLine
+    Check ($s -and $s.gameDir -ceq $GAME) 'the status line has the saved folder'
+    Check ($s -and $s.modInstalled -eq $true -and @($s.files).Count -eq $ALL_FILES.Count) 'and every file of the mod'
+    Check (($r = Run 'Status' @('-Json')).Out -cmatch '^[\x00-\x7F\r\n]*$') 'the status line is plain ASCII'
+    $s = StatusLine @('-GameDir', (Join-Path $LAB 'folder that does not exist'))
+    Check ($s -and $s.error -match 'Titanfall2.exe' -and $s.gameDir -eq $null) 'a wrong folder comes back as an error in the line'
     $r = Run 'Status'
     Check ($r.Out.Contains($GAME)) 'the previous folder is still saved'
 

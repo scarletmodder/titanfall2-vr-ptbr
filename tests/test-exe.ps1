@@ -61,6 +61,12 @@ try {
     $utf16 = [Text.Encoding]::Unicode.GetString($exeBytes) + [Text.Encoding]::Unicode.GetString($exeBytes, 1, $exeBytes.Length - 1)
     Check (-not $utf16.Contains('TF2VR_TEST') -and -not $raw.Contains('TF2VR_TEST')) 'simulation code absent from the published exe'
     Check ($utf16.Contains('runas')) 'published exe asks for the real Windows permission'
+    $window = Join-Path (Split-Path $Exe) 'Titanfall2VR-PTBR-Window.exe'
+    $windowInfo = (Get-Item -LiteralPath $window).VersionInfo
+    Check ($windowInfo.CompanyName -ceq 'Scarlet Modder' -and $windowInfo.FileVersion -ceq "$version.0") 'author and version in the window'
+    $windowBytes = [IO.File]::ReadAllBytes($window)
+    $windowText = [Text.Encoding]::Unicode.GetString($windowBytes) + [Text.Encoding]::Unicode.GetString($windowBytes, 1, $windowBytes.Length - 1)
+    Check ($windowText.IndexOf('powershell', [StringComparison]::OrdinalIgnoreCase) -lt 0 -and $windowText.IndexOf('bypass', [StringComparison]::OrdinalIgnoreCase) -lt 0) 'the window has no PowerShell of its own'
 
     Write-Host '[2] Extraction'
     $r = Run @('-Action', 'Status')
@@ -214,6 +220,56 @@ try {
     Check ($r.Code -eq 10) 'without the problem, translates again'
     $r = RunSim @('-Action', 'Restore')
     Check ($r.Code -eq 0 -and (Originals)) 'and restores'
+
+    Write-Host '[8b] Run by the window: what the hidden administrator stage says comes out'
+    Lock
+    $r = RunSim @('--wizard', '-Action', 'Translate')
+    Check ($r.Code -eq 10) "translates through the hidden stage (exited $($r.Code))"
+    Check ($r.Out -match 'Tradução aplicada') 'its result comes out'
+    Lock
+    $bk = @(Get-ChildItem -LiteralPath (Join-Path $ADMIN_DATA 'backup') -Recurse -File | Where-Object { $_.Name -ne 'backup.json' })[0].FullName
+    $b = [IO.File]::ReadAllBytes($bk); $b[3] = $b[3] -bxor 1; [IO.File]::WriteAllBytes($bk, $b)
+    $r = RunSim @('--wizard', '-Action', 'Restore')
+    Check ($r.Code -eq 1 -and $r.Out -match 'não confere') 'and so does the reason for a failure, with its accents'
+    $b[3] = $b[3] -bxor 1; [IO.File]::WriteAllBytes($bk, $b)
+    $r = RunSim @('--wizard', '-Action', 'Restore')
+    Check ($r.Code -eq 0 -and (Originals)) 'with the right backup, restores'
+    $env:TF2VR_TEST_TAMPER = '1'
+    Lock
+    $r = RunSim @('--wizard', '-Action', 'Translate')
+    $env:TF2VR_TEST_TAMPER = ''
+    Check ($r.Code -eq 1 -and $r.Out -match 'não confere') 'a tampered extracted file says so too'
+    Check (Originals) 'nothing was written'
+
+    Write-Host '[8c] Text the hidden stage did not write this time is not repeated'
+    $said = Join-Path $ADMIN_DATA 'elevated-output.txt'
+    [IO.File]::WriteAllText($said, 'forged text')
+    (Get-Item -LiteralPath $said).LastWriteTimeUtc = (Get-Date).ToUniversalTime().AddHours(-1)
+    (Get-Item -LiteralPath $said).IsReadOnly = $true
+    Lock
+    $r = RunSim @('--wizard', '-Action', 'Translate')
+    Check ($r.Code -eq 10 -and $r.Out -notmatch 'forged text') 'a file from another run stays out'
+    (Get-Item -LiteralPath $said).IsReadOnly = $false
+    $r = RunSim @('--wizard', '-Action', 'Restore')
+    Check ($r.Code -eq 0 -and (Originals)) 'and restores'
+    [IO.File]::WriteAllText($said, 'forged text')
+    $eap = $ErrorActionPreference; $ErrorActionPreference = 'Continue'
+    & icacls $said /grant '*S-1-1-0:M' 2>&1 | Out-Null
+    $ErrorActionPreference = $eap
+    Lock
+    $r = RunSim @('--wizard', '-Action', 'Translate')
+    Check ($r.Code -eq 1 -and $r.Out -notmatch 'forged text' -and $r.Out -match 'falhou') 'a file anyone could write stays out, and the failure is still said'
+    Check (Originals) 'nothing was written'
+    $eap = $ErrorActionPreference; $ErrorActionPreference = 'Continue'
+    & icacls $said /remove '*S-1-1-0' 2>&1 | Out-Null
+    $ErrorActionPreference = $eap
+    Lock
+
+    Write-Host '[8d] Opened by hand, the tool looks for the window'
+    $eap = $ErrorActionPreference; $ErrorActionPreference = 'Continue'
+    $out = & $Exe 2>&1 | Out-String; $code = $LASTEXITCODE
+    $ErrorActionPreference = $eap
+    Check ($code -eq 1 -and $out -match 'Titanfall2VR-PTBR-Window') 'without the window beside it, says so and does not open a menu'
 
     Write-Host '[9] Failure saving the state after the write does not claim it was undone'
     foreach ($rel in $ALL_FILES) { (Get-Item -LiteralPath (Join-Path $GAME $rel)).IsReadOnly = $false }

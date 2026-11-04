@@ -9,7 +9,7 @@
 
 **Do download à tradução no jogo, com as telas do instalador e a desinstalação no final.**
 
-[Voltar ao README](../README.md) · [Instalar](#-instalar) · [Atualizar](#-atualizar-depois-de-uma-versão-nova-do-mod) · [Voltar ao inglês](#-voltar-ao-inglês) · [Desinstalar](#%EF%B8%8F-desinstalar) · [Alerta do antivírus](#%EF%B8%8F-alerta-do-antivírus) · [Problemas](#-problemas-comuns)
+[Voltar ao README](../README.md) · [Instalar](#-instalar) · [O programa](#%EF%B8%8F-o-programa-do-menu-iniciar) · [Atualizar](#-atualizar-depois-de-uma-versão-nova-do-mod) · [Voltar ao inglês](#-voltar-ao-inglês) · [Desinstalar](#%EF%B8%8F-desinstalar) · [Alerta do antivírus](#%EF%B8%8F-alerta-do-antivírus) · [Problemas](#-problemas-comuns)
 
 </div>
 
@@ -28,14 +28,14 @@ O instalador traz só a tradução: este repositório e a release não têm arqu
 
 ## 🧭 O que você pode fazer
 
-O instalador não tem opções numeradas: ele só mostra as telas de boas-vindas, pasta do jogo, instalar e concluir. Depois de instalar, fica no menu Iniciar um programa chamado "Tradução PT-BR do mod Titanfall 2 VR". As opções `[1]`, `[2]` e `[3]` citadas neste guia são desse programa.
+O instalador mostra as telas de boas-vindas, pasta do jogo, instalar e concluir. Depois de instalar, fica no menu Iniciar um programa chamado "Tradução PT-BR do mod Titanfall 2 VR", com uma janela para o resto.
 
 | Quero | Onde |
 |---|---|
 | **Instalar** a tradução | [No instalador](#-instalar) |
-| **Reaplicar** depois de uma atualização do mod | [Opção `[1]` do programa, no menu Iniciar](#-atualizar-depois-de-uma-versão-nova-do-mod), ou rodando o instalador de novo |
-| **Voltar ao inglês** sem desinstalar | [Opção `[2]` do programa do menu Iniciar](#-voltar-ao-inglês) |
-| **Trocar a pasta do jogo** | Opção `[3]` do programa do menu Iniciar |
+| **Reaplicar** depois de uma atualização do mod | [Botão **Reaplicar a tradução** do programa, no menu Iniciar](#-atualizar-depois-de-uma-versão-nova-do-mod), ou rodando o instalador de novo |
+| **Voltar ao inglês** sem desinstalar | [Botão **Voltar ao inglês** do programa](#-voltar-ao-inglês) |
+| **Trocar a pasta do jogo** | [Botão **Trocar pasta...** do programa](#trocar-a-pasta-do-jogo) |
 | **Desinstalar** tudo | [Lista de aplicativos do Windows](#%EF%B8%8F-desinstalar) |
 
 ## 🚀 Instalar
@@ -98,21 +98,39 @@ Abra o jogo pelo botão "Launch in VR" do instalador do mod, como o próprio pro
 
 Se o instalador do mod estiver aberto durante a tradução, o programa avisa: "O instalador do mod está aberto. Se ele atualizar o mod, rode esta ferramenta de novo depois."
 
+## 🖥️ O programa do menu Iniciar
+
+Abra **"Tradução PT-BR do mod Titanfall 2 VR"** no menu Iniciar. A janela mostra em que idioma o jogo está, a pasta do jogo e os botões. A área de baixo diz o que aconteceu depois de cada clique.
+
+![Janela do programa com o jogo em português, um caminho de exemplo e os botões](images/program-2-portuguese.png)
+
+*A pasta das capturas é um exemplo.*
+
+### Trocar a pasta do jogo
+
+Clique em **Trocar pasta...** e escolha a pasta que tem o `Titanfall2.exe`. No EA app ou na Steam, a opção "Procurar arquivos locais" abre essa pasta. A janela confere a pasta escolhida e mostra a situação dela.
+
+Se o programa não achar o jogo sozinho, a janela avisa e só esse botão fica ligado:
+
+![Janela do programa quando não encontra o jogo](images/program-3-no-game.png)
+
 ## 🧭 Atualizar depois de uma versão nova do mod
 
-O instalador do mod troca os arquivos a cada atualização, e a tradução some. Abra **"Tradução PT-BR do mod Titanfall 2 VR"** no menu Iniciar e escolha `[1] Traduzir para português`.
+O instalador do mod troca os arquivos a cada atualização, e a tradução some. Abra o programa no menu Iniciar e clique em **Reaplicar a tradução**. Se a tradução tiver sumido por inteiro, o botão se chama **Traduzir para português**.
 
-- **Nada mudou:** aparece a caixa "Tudo atualizado" ("A tradução já está aplicada no mod ...") e nenhum arquivo é gravado.
+- **Nada mudou:** a janela avisa "A tradução já estava aplicada e nada mudou: nenhum arquivo foi alterado."
 - **O mod mudou:** o programa guarda o novo original como backup e traduz de novo.
-- **Texto novo no mod:** ele fica em inglês e o resto continua traduzido. O programa mostra "N texto(s) do mod ainda não têm tradução e aparecem em inglês no jogo." e uma lista pronta para colar numa [issue](https://github.com/scarletmodder/titanfall2-vr-ptbr/issues) (um aviso aberto no GitHub), só com chave e hash de cada texto.
+- **Texto novo no mod:** ele fica em inglês e o resto continua traduzido. A janela mostra "N texto(s) do mod ainda não têm tradução e aparecem em inglês no jogo." e o botão **Copiar textos sem tradução**, com uma lista pronta para colar numa [issue](https://github.com/scarletmodder/titanfall2-vr-ptbr/issues) (um aviso aberto no GitHub), só com chave e hash de cada texto.
 
 O jogo já pode ser aberto com texto novo em inglês. Para a tradução entrar na versão seguinte, abra a issue com a lista.
 
 ## 🔄 Voltar ao inglês
 
-Abra o programa no menu Iniciar e escolha **`[2] Voltar aos textos originais (inglês)`**. Os arquivos voltam a ser exatamente os que estavam antes da tradução, e aparece a caixa "Originais restaurados". Para traduzir de novo, use a opção `[1]`.
+Abra o programa no menu Iniciar e clique em **Voltar ao inglês**. Os arquivos voltam a ser exatamente os que estavam antes da tradução, e a janela confirma. Para traduzir de novo, clique em **Traduzir para português**.
 
-Se não houver nada traduzido, a caixa é "Nada a restaurar".
+![Janela do programa com o jogo em inglês e o botão de traduzir](images/program-1-english.png)
+
+Se não houver nada traduzido, o botão **Voltar ao inglês** fica desligado.
 
 ## 🗑️ Desinstalar
 
@@ -167,7 +185,7 @@ Se os textos não voltarem, mantenha a pasta, porque a cópia dos originais est�
 
 ## 📁 Onde ficam os dados
 
-O instalador coloca o programa em `%LOCALAPPDATA%\Programs\Titanfall2VR-PTBR`. O programa extrai o script e o dicionário e guarda a pasta do jogo escolhida, o backup e o estado fora da pasta do jogo. Existem dois lugares, conforme a tradução tenha sido feita como usuário comum ou como administrador.
+O instalador coloca os dois programas, a janela e a ferramenta, em `%LOCALAPPDATA%\Programs\Titanfall2VR-PTBR`. A ferramenta extrai o script e o dicionário e guarda a pasta do jogo escolhida, o backup e o estado fora da pasta do jogo. Existem dois lugares, conforme a tradução tenha sido feita como usuário comum ou como administrador.
 
 | O quê | Tradução comum | Tradução feita como administrador |
 |---|---|---|
@@ -183,19 +201,19 @@ Quando o jogo foi traduzido como administrador, o backup e o estado ficam na pas
 | Sintoma na tela | Causa provável | O que fazer |
 |---|---|---|
 | `O Titanfall 2 está aberto.` | O jogo está rodando | Feche o jogo e tente de novo |
-| `O mod Titanfall 2 VR não está instalado nesta pasta.` | A pasta escolhida não tem o mod | No programa do menu Iniciar, escolha `[3] Trocar a pasta do jogo`, ou instale o mod pelo instalador do CircuitLord |
+| `O mod Titanfall 2 VR não está instalado nesta pasta.` | A pasta escolhida não tem o mod | No programa do menu Iniciar, clique em **Trocar pasta...**, ou instale o mod pelo instalador do CircuitLord |
 | `Este jogo tem um pacote antigo de tradução instalado ("Titanfall 2 VR em Português").` | O pacote antigo altera os mesmos arquivos | Desinstale em Configurações do Windows, Aplicativos. Se ele não aparecer lá, reinstale o mod pelo instalador do CircuitLord |
 | `O arquivo ... está aberto em outro programa.` | O EA app, a Steam ou o instalador do mod estão verificando ou atualizando o jogo | Espere terminarem e tente de novo. Às vezes é o antivírus |
 | `Nem como administrador o Windows deixou gravar em ...` | O arquivo está marcado como somente leitura | Botão direito no arquivo, Propriedades, desmarque "Somente leitura" e tente de novo |
 | `Não achei o Titanfall2.exe nesta pasta` | A pasta escolhida não é a do jogo | Escolha a pasta que tem o `Titanfall2.exe` |
-| `O backup guardado é de outra pasta do jogo, que continua traduzida. Nada foi alterado.` | Você tem duas instalações e a outra ainda está traduzida | No programa do menu Iniciar, use `[2]` na outra instalação antes de traduzir esta. Backup e estado têm um lugar só em cada modo |
+| `O backup guardado é de outra pasta do jogo, que continua traduzida. Nada foi alterado.` | Você tem duas instalações e a outra ainda está traduzida | No programa do menu Iniciar, escolha a outra instalação com **Trocar pasta...** e clique em **Voltar ao inglês** antes de traduzir esta. Backup e estado têm um lugar só em cada modo |
 | `O arquivo ... mudou enquanto a ferramenta trabalhava.` | O instalador do mod atualizou o arquivo no meio | Espere o instalador terminar e rode de novo. Nada foi alterado |
-| `A permissão de administrador foi recusada. Nada foi alterado.` | Você recusou o aviso do Windows | Escolha a opção de novo e aceite, ou deixe como está |
-| `Este programa foi aberto de dentro de outro aplicativo ...` | O Windows guardaria os dados numa área separada, onde a desinstalação não os acharia | Abra pelo Explorador de Arquivos, com dois cliques no arquivo |
+| `A permissão de administrador foi recusada. Nada foi alterado.` | Você recusou o aviso do Windows | Clique no botão de novo e aceite, ou deixe como está |
+| `Este programa foi aberto de dentro de outro aplicativo ...` | O Windows guardaria os dados numa área separada, onde a desinstalação não os acharia | Abra pelo menu Iniciar do Windows |
 
-Se a janela for fechada no meio de uma gravação, abra o programa do menu Iniciar e escolha `[1]` ou `[2]` de novo. O programa reconhece o que ficou pela metade, limpa os temporários e termina o trabalho ou devolve o original.
+A janela não fecha enquanto grava. Se o computador desligar no meio de uma gravação, abra o programa do menu Iniciar e clique no mesmo botão de novo. O programa reconhece o que ficou pela metade, limpa os temporários e termina o trabalho ou devolve o original.
 
-Se o texto sair cortado ou estranho dentro do jogo, use `[2]` no programa do menu Iniciar e abra uma [issue](https://github.com/scarletmodder/titanfall2-vr-ptbr/issues) dizendo em qual tela apareceu, sem colar texto do mod e sem nomes de usuário ou caminhos do seu computador.
+Se o texto sair cortado ou estranho dentro do jogo, clique em **Voltar ao inglês** no programa do menu Iniciar e abra uma [issue](https://github.com/scarletmodder/titanfall2-vr-ptbr/issues) dizendo em qual tela apareceu, sem colar texto do mod e sem nomes de usuário ou caminhos do seu computador.
 
 ## 📚 Documentação
 
