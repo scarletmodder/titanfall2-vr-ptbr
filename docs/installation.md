@@ -28,14 +28,14 @@ O instalador traz só a tradução: este repositório e a release não têm arqu
 
 ## 🧭 O que você pode fazer
 
-Estas são as opções:
+O instalador não tem opções numeradas: ele só mostra as telas de boas-vindas, pasta do jogo, instalar e concluir. Depois de instalar, fica no menu Iniciar um programa chamado "Tradução PT-BR do mod Titanfall 2 VR". As opções `[1]`, `[2]` e `[3]` citadas neste guia são desse programa.
 
 | Quero | Onde |
 |---|---|
 | **Instalar** a tradução | [No instalador](#-instalar) |
 | **Reaplicar** depois de uma atualização do mod | [Opção `[1]` do programa, no menu Iniciar](#-atualizar-depois-de-uma-versão-nova-do-mod), ou rodando o instalador de novo |
-| **Voltar ao inglês** sem desinstalar | [Opção `[2]` do programa](#-voltar-ao-inglês) |
-| **Trocar a pasta do jogo** | Opção `[3]` do programa |
+| **Voltar ao inglês** sem desinstalar | [Opção `[2]` do programa do menu Iniciar](#-voltar-ao-inglês) |
+| **Trocar a pasta do jogo** | Opção `[3]` do programa do menu Iniciar |
 | **Desinstalar** tudo | [Lista de aplicativos do Windows](#%EF%B8%8F-desinstalar) |
 
 ## 🚀 Instalar
@@ -183,19 +183,19 @@ Quando o jogo foi traduzido como administrador, o backup e o estado ficam na pas
 | Sintoma na tela | Causa provável | O que fazer |
 |---|---|---|
 | `O Titanfall 2 está aberto.` | O jogo está rodando | Feche o jogo e tente de novo |
-| `O mod Titanfall 2 VR não está instalado nesta pasta.` | A pasta escolhida não tem o mod | Escolha `[3] Trocar a pasta do jogo`, ou instale o mod pelo instalador do CircuitLord |
+| `O mod Titanfall 2 VR não está instalado nesta pasta.` | A pasta escolhida não tem o mod | No programa do menu Iniciar, escolha `[3] Trocar a pasta do jogo`, ou instale o mod pelo instalador do CircuitLord |
 | `Este jogo tem um pacote antigo de tradução instalado ("Titanfall 2 VR em Português").` | O pacote antigo altera os mesmos arquivos | Desinstale em Configurações do Windows, Aplicativos. Se ele não aparecer lá, reinstale o mod pelo instalador do CircuitLord |
 | `O arquivo ... está aberto em outro programa.` | O EA app, a Steam ou o instalador do mod estão verificando ou atualizando o jogo | Espere terminarem e tente de novo. Às vezes é o antivírus |
 | `Nem como administrador o Windows deixou gravar em ...` | O arquivo está marcado como somente leitura | Botão direito no arquivo, Propriedades, desmarque "Somente leitura" e tente de novo |
 | `Não achei o Titanfall2.exe nesta pasta` | A pasta escolhida não é a do jogo | Escolha a pasta que tem o `Titanfall2.exe` |
-| `O backup guardado é de outra pasta do jogo, que continua traduzida. Nada foi alterado.` | Você tem duas instalações e a outra ainda está traduzida | Use `[2]` na outra instalação antes de traduzir esta. Backup e estado têm um lugar só em cada modo |
+| `O backup guardado é de outra pasta do jogo, que continua traduzida. Nada foi alterado.` | Você tem duas instalações e a outra ainda está traduzida | No programa do menu Iniciar, use `[2]` na outra instalação antes de traduzir esta. Backup e estado têm um lugar só em cada modo |
 | `O arquivo ... mudou enquanto a ferramenta trabalhava.` | O instalador do mod atualizou o arquivo no meio | Espere o instalador terminar e rode de novo. Nada foi alterado |
 | `A permissão de administrador foi recusada. Nada foi alterado.` | Você recusou o aviso do Windows | Escolha a opção de novo e aceite, ou deixe como está |
 | `Este programa foi aberto de dentro de outro aplicativo ...` | O Windows guardaria os dados numa área separada, onde a desinstalação não os acharia | Abra pelo Explorador de Arquivos, com dois cliques no arquivo |
 
-Se a janela for fechada no meio de uma gravação, rode `[1]` ou `[2]` de novo. O programa reconhece o que ficou pela metade, limpa os temporários e termina o trabalho ou devolve o original.
+Se a janela for fechada no meio de uma gravação, abra o programa do menu Iniciar e escolha `[1]` ou `[2]` de novo. O programa reconhece o que ficou pela metade, limpa os temporários e termina o trabalho ou devolve o original.
 
-Se o texto sair cortado ou estranho dentro do jogo, use `[2]` e abra uma [issue](https://github.com/scarletmodder/titanfall2-vr-ptbr/issues) dizendo em qual tela apareceu, sem colar texto do mod e sem nomes de usuário ou caminhos do seu computador.
+Se o texto sair cortado ou estranho dentro do jogo, use `[2]` no programa do menu Iniciar e abra uma [issue](https://github.com/scarletmodder/titanfall2-vr-ptbr/issues) dizendo em qual tela apareceu, sem colar texto do mod e sem nomes de usuário ou caminhos do seu computador.
 
 ## 📚 Documentação
 

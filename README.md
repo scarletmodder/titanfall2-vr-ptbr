@@ -43,6 +43,8 @@ Você precisa do Titanfall 2 com o [mod VR do CircuitLord](https://github.com/Ci
 
 A pasta que aparece nas capturas é um exemplo. Na sua máquina, o instalador procura o jogo sozinho e você pode trocar a pasta.
 
+O instalador não tem opções numeradas, só as telas acima. Depois de instalar, fica no menu Iniciar um programa chamado "Tradução PT-BR do mod Titanfall 2 VR". As opções `[1]`, `[2]` e `[3]` citadas nesta página são desse programa.
+
 Para voltar ao inglês, desinstale "Tradução PT-BR do mod Titanfall 2 VR" pela lista de aplicativos do Windows.
 
 > [!TIP]
@@ -87,8 +89,8 @@ Ele guarda só o hash do texto em inglês e a tradução. A linha real vem do mo
 |---|---|---|
 | Traduzir | Rodo o instalador até o fim | O mod fica em português e o original vai para um backup |
 | Voltar ao inglês | Abro o programa no menu Iniciar e escolho `[2] Voltar aos textos originais (inglês)` | Os arquivos voltam byte a byte ao que eram |
-| Trocar a pasta do jogo | No programa, escolho `[3] Trocar a pasta do jogo` | O programa procura de novo ou pede a pasta com o `Titanfall2.exe` |
-| Atualizar depois do mod | No programa, escolho `[1]` de novo | Se nada mudou, aparece "Tudo atualizado" e nada é gravado |
+| Trocar a pasta do jogo | No programa do menu Iniciar, escolho `[3] Trocar a pasta do jogo` | O programa procura de novo ou pede a pasta com o `Titanfall2.exe` |
+| Atualizar depois do mod | No programa do menu Iniciar, escolho `[1]` de novo | Se nada mudou, aparece "Tudo atualizado" e nada é gravado |
 | Remover tudo | Configurações do Windows, Aplicativos, Aplicativos instalados | Os originais voltam e os dados da ferramenta são apagados |
 
 Se o mod atualizar e trouxer texto novo, esse texto fica em inglês e o resto continua traduzido. O programa mostra uma lista pronta para colar numa [issue](https://github.com/scarletmodder/titanfall2-vr-ptbr/issues) (um aviso aberto no GitHub), só com chave e hash, sem texto do mod.
@@ -213,7 +215,7 @@ sequenceDiagram
     end
 ```
 
-**Estados: por onde cada um dos cinco arquivos de texto do mod passa.**
+**Estados: por onde cada um dos cinco arquivos de texto do mod passa. "Opção 1" e "opção 2" são as do programa do menu Iniciar.**
 
 ```mermaid
 stateDiagram-v2
@@ -274,7 +276,7 @@ Para quem contribui: as regras do dicionário estão em [tool/translations/RULES
 | Sintoma na tela | Causa provável | O que fazer |
 |---|---|---|
 | `O Titanfall 2 está aberto.` | O jogo está rodando | Feche o jogo e tente de novo |
-| `O mod Titanfall 2 VR não está instalado nesta pasta.` | A pasta escolhida não tem o mod | Escolha `[3]` e indique a pasta certa, ou instale o mod antes |
+| `O mod Titanfall 2 VR não está instalado nesta pasta.` | A pasta escolhida não tem o mod | No programa do menu Iniciar, escolha `[3]` e indique a pasta certa, ou instale o mod antes |
 | `Este jogo tem um pacote antigo de tradução instalado ("Titanfall 2 VR em Português").` | O pacote antigo altera os mesmos arquivos | Desinstale em Configurações do Windows, Aplicativos, e rode de novo |
 | `O arquivo ... está aberto em outro programa.` | O EA app, a Steam ou o instalador do mod estão verificando o jogo | Espere terminarem e tente de novo |
 | `Nem como administrador o Windows deixou gravar em ...` | O arquivo está marcado como somente leitura | Botão direito no arquivo, Propriedades, desmarque "Somente leitura" |
