@@ -12,6 +12,9 @@
 #define AppPublisher "Scarlet Modder"
 #define AppURL "https://github.com/scarletmodder/titanfall2-vr-ptbr"
 #define ExeName "Titanfall2VR-PTBR.exe"
+#define WindowExeName "Titanfall2VR-PTBR-Window.exe"
+; The window of the Start menu holds this while it is open: it also appears in src\Window.cs.
+#define WindowMutex "ScarletModder.Titanfall2VRPTBR.Window"
 ; Identifies the installation across upgrades: never change it.
 #define AppGuid "7B0E5C1A-3D42-4F6B-9A58-2C8D1E7F4A36"
 ; What versions before the installer registered, and where they kept a copy of the exe.
@@ -23,8 +26,8 @@
 #define ExitTranslationFailed 30
 
 #define DistDir AddBackslash(SourcePath) + "..\dist"
-#if !FileExists(DistDir + "\" + ExeName)
-  #error dist\Titanfall2VR-PTBR.exe not found: run scripts\build.ps1
+#if !FileExists(DistDir + "\" + ExeName) || !FileExists(DistDir + "\" + WindowExeName)
+  #error The programs are not in dist: run scripts\build.ps1
 #endif
 #ifndef AppVersion
   #error AppVersion is missing: run scripts\build.ps1
@@ -49,7 +52,8 @@ DisableWelcomePage=no
 DisableDirPage=yes
 DisableProgramGroupPage=yes
 UninstallDisplayName={#AppName}
-UninstallDisplayIcon={app}\{#ExeName}
+UninstallDisplayIcon={app}\{#WindowExeName}
+AppMutex={#WindowMutex}
 SetupIconFile=scarlet.ico
 OutputDir=..\dist
 OutputBaseFilename=Instalador-Traducao-PTBR-Mod-Titanfall2VR-v{#AppVersion}
@@ -82,7 +86,7 @@ UninstalledAll=A %1 foi removida do seu computador.
 UninstalledMost=A remoção da %1 terminou.%n%nAlguns itens não puderam ser removidos: eles podem ser apagados à mão.
 UninstalledAndNeedsRestart=Para completar a remoção da %1, o computador precisa reiniciar.%n%nReiniciar agora?
 WelcomeLabel2=Este assistente instala a tradução para português do Brasil dos textos do mod Titanfall 2 VR. Não inclui o jogo nem o mod.%n%nAntes de continuar, instale o mod pelo instalador do CircuitLord e feche o jogo.%n%nProjeto de fã, sem vínculo com EA, Respawn ou CircuitLord.
-FinishedLabel=A tradução foi aplicada. Pode abrir o jogo.%n%nSe o mod for atualizado, abra "[name]" no menu Iniciar e traduza de novo. Para voltar ao inglês, desinstale pela lista de aplicativos do Windows.
+FinishedLabel=A tradução foi aplicada. Pode abrir o jogo.%n%nSe o mod for atualizado, abra "[name]" no menu Iniciar e reaplique a tradução. No mesmo programa você volta ao inglês e troca a pasta do jogo.
 
 [CustomMessages]
 GamePageTitle=Pasta do jogo
@@ -102,10 +106,11 @@ UninstallStopped=A desinstalação não terminou e nada foi removido. Resolva o 
 
 [Files]
 Source: "{#DistDir}\{#ExeName}"; DestDir: "{app}"; Flags: ignoreversion touch
+Source: "{#DistDir}\{#WindowExeName}"; DestDir: "{app}"; Flags: ignoreversion touch
 Source: "..\LICENSE"; DestDir: "{app}"; DestName: "LICENSE.txt"; Flags: ignoreversion touch
 
 [Icons]
-Name: "{autoprograms}\{#AppName}"; Filename: "{app}\{#ExeName}"; WorkingDir: "{app}"
+Name: "{autoprograms}\{#AppName}"; Filename: "{app}\{#WindowExeName}"; WorkingDir: "{app}"
 
 [Code]
 const

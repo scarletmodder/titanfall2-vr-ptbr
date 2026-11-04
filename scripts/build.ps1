@@ -1,4 +1,4 @@
-﻿# Builds dist\Titanfall2VR-PTBR.exe with the csc of the Windows .NET Framework, wraps it in the Inno Setup installer and generates SHA256SUMS.txt.
+﻿# Builds the tool and the window with the csc of the Windows .NET Framework, wraps them in the Inno Setup installer and generates SHA256SUMS.txt.
 # Builds from the root with relative paths and without a PDB, so no local path enters the binary.
 # The exe and the installed files carry a fixed date: the build time and time zone are not recorded.
 [CmdletBinding()]
@@ -33,7 +33,9 @@ $attributes = @(
 )
 [IO.File]::WriteAllText((Join-Path $root $generated), (($attributes -join "`n") + "`n"), (New-Object Text.UTF8Encoding($false)))
 
-if ((Get-Content -Raw -LiteralPath (Join-Path $root 'src\app.manifest')) -notmatch "assemblyIdentity version=`"$([regex]::Escape($version))\.0`"") { throw "src\app.manifest differs from VERSION $version" }
+foreach ($manifest in 'src\app.manifest', 'src\window.manifest') {
+    if ((Get-Content -Raw -LiteralPath (Join-Path $root $manifest)) -notmatch "assemblyIdentity version=`"$([regex]::Escape($version))\.0`"") { throw "$manifest differs from VERSION $version" }
+}
 
 $exe = Join-Path $Output 'Titanfall2VR-PTBR.exe'
 $resources = @('/resource:tool\titanfall-ptbr.ps1,app/titanfall-ptbr.ps1')
@@ -44,7 +46,7 @@ foreach ($f in Get-ChildItem -LiteralPath (Join-Path $root 'tool\translations') 
 $symbols = @()
 if ($SimulateUac) { $symbols = @('/define:SIMULATE_UAC') }
 $cscArgs = @('/nologo', '/target:exe', '/platform:anycpu', '/optimize+', '/debug-', '/codepage:65001', '/warn:4', '/warnaserror+',
-    '/win32manifest:src\app.manifest', "/out:$exe") + $symbols + $resources + @('src\Launcher.cs', $generated)
+    '/win32manifest:src\app.manifest', "/out:$exe") + $symbols + $resources + @('src\Launcher.cs', 'src\CommandLine.cs', $generated)
 & $csc @cscArgs
 if ($LASTEXITCODE -ne 0) { throw "csc failed with code $LASTEXITCODE" }
 
@@ -54,12 +56,23 @@ if ($SimulateUac) {
     exit 0
 }
 
+# The window of the Start menu. It has no script inside: it only runs the tool above.
+$windowExe = Join-Path $Output 'Titanfall2VR-PTBR-Window.exe'
+$windowArgs = @('/nologo', '/target:winexe', '/platform:anycpu', '/optimize+', '/debug-', '/codepage:65001', '/warn:4', '/warnaserror+',
+    '/win32manifest:src\window.manifest', '/win32icon:installer\scarlet.ico', '/resource:installer\scarlet.ico,scarlet.ico',
+    '/reference:System.Windows.Forms.dll', '/reference:System.Drawing.dll', '/reference:System.Web.Extensions.dll',
+    "/out:$windowExe", 'src\Window.cs', 'src\CommandLine.cs', $generated)
+& $csc @windowArgs
+if ($LASTEXITCODE -ne 0) { throw "csc failed with code $LASTEXITCODE" }
+
 # Fixed date in the PE header: the build time is not recorded in the file.
-$exePath = Join-Path $root $exe
-$bytes = [IO.File]::ReadAllBytes($exePath)
-$pe = [BitConverter]::ToInt32($bytes, 0x3C)
-[Array]::Copy([BitConverter]::GetBytes([int]1767225600), 0, $bytes, $pe + 8, 4)
-[IO.File]::WriteAllBytes($exePath, $bytes)
+foreach ($built in $exe, $windowExe) {
+    $exePath = Join-Path $root $built
+    $bytes = [IO.File]::ReadAllBytes($exePath)
+    $pe = [BitConverter]::ToInt32($bytes, 0x3C)
+    [Array]::Copy([BitConverter]::GetBytes([int]1767225600), 0, $bytes, $pe + 8, 4)
+    [IO.File]::WriteAllBytes($exePath, $bytes)
+}
 
 # What users download is the installer, which carries the executable and the license.
 if (-not $Iscc) {
