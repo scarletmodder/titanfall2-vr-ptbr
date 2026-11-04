@@ -1,0 +1,13 @@
+{
+  "file": "TF2VR\\mods\\Titanfall2VR.Cockpit\\mod\\scripts\\vscripts\\tf2vr_dialogue.nut",
+  "name": "escolhas de diálogo",
+  "lines": [
+    {
+      "enHash": "99241b16ac0a089246f7a8bf5ed7cdbe09d225f683814d2b21aed8a88566619a",
+      "texts": [
+        "[",
+        " esquerdo] "
+      ]
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "file": "TF2VR\\mods\\Titanfall2VR.Cockpit\\mod\\scripts\\vscripts\\tf2vr_menu.nut",
+  "name": "menu de pausa",
+  "lines": [
+    {
+      "enHash": "6c3d30ec601505cf13b10cad960d0a8419e246891403e711d887b442139e71c8",
+      "texts": [
+        "EQUIPAMENTO DO TITÃ"
+      ]
+    },
+    {
+      "enHash": "ddfbb28e9b64aa1a96cac87c1e9a7769f3efef18f29783f747b7e0f92ffa94a5",
+      "texts": [
+        null,
+        "CIMA"
+      ]
+    },
+    {
+      "enHash": "cd44a0671583bd88da8cf88d4e5cb67e1f9e3e25e5fcc79594221d8d30de259f",
+      "texts": [
+        null,
+        "FRENTE"
+      ]
+    },
+    {
+      "enHash": "d9c08fde257f7d67d37b64980c644493d0559b34d32645dacc64a0640122358c",
+      "texts": [
+        null,
+        "BAIXO"
+      ]
+    },
+    {
+      "enHash": "3f61923256901c3f2d9676e6e6edca2336651ddd97e442224499ffe41e814487",
+      "texts": [
+        null,
+        "TRÁS"
+      ]
+    },
+    {
+      "enHash": "a6038b85da1118241d157de257254496b3d09076311b241a35e564684ac8973a",
+      "texts": [
+        "MELHORES MOMENTOS"
+      ]
+    },
+    {
+      "enHash": "5b562cfa1b39b916496b8531ace203b30633d91203c26f5483e9e303ae40fa87",
+      "texts": [
+        "O Titanfall 2 VR grava os melhores momentos das partidas e guarda tudo no seu computador.\\n\\nO mod não envia nem compartilha seus vídeos."
+      ]
+    },
+    {
+      "enHash": "7b7f4fabbd9da7e59f13e19415a512ac131d1e39265ad7669e5968ae7a67cb05",
+      "texts": [
+        "ABRIR PASTA"
+      ]
+    }
+  ]
+}

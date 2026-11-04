@@ -1,0 +1,14 @@
+# Only ruff and mypy configuration for the Python scripts. The project is not a package.
+[tool.ruff]
+line-length = 140
+src = ["scripts", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501"]
+
+[tool.mypy]
+strict = true
+files = ["scripts", "tests/test_guards.py"]
+mypy_path = "scripts"
+explicit_package_bases = true

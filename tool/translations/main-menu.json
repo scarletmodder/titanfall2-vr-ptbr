@@ -1,0 +1,19 @@
+{
+  "file": "TF2VR\\mods\\Titanfall2VR.Cockpit\\mod\\scripts\\vscripts\\ui\\panel_mainmenu.nut",
+  "name": "menu principal",
+  "scan": false,
+  "lines": [
+    {
+      "enHash": "b9f8fa8e5a237b81bf0e74f1cbf418605aabcd14648eda7446dd38840d55864e",
+      "texts": [
+        "MULTIJOGADOR VR"
+      ]
+    },
+    {
+      "enHash": "0484fe2c8c4d9efe047db1a72011c3e1beb46773b657d3e63db0b4456ff22b0f",
+      "texts": [
+        "ABRIR MELHORES MOMENTOS"
+      ]
+    }
+  ]
+}

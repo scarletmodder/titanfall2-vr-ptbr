@@ -1,0 +1,21 @@
+# Original dictionary, converter and guard terms: only on the maintainer's machine.
+private/
+local/
+work/
+
+# Build output
+dist/
+*.exe
+*.pdb
+*.zip
+
+# Python
+__pycache__/
+*.pyc
+
+# System and editors
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+.idea/

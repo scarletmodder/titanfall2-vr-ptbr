@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" width="1200" height="300" role="img" aria-label="Titanfall 2 VR em português do Brasil">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#10141c"/><stop offset="1" stop-color="#1c2533"/></linearGradient></defs>
+  <rect width="1200" height="300" rx="18" fill="url(#g)"/>
+  <path d="M900 0 L1200 0 L1200 300 L760 300 Z" fill="#ff7a1a" opacity="0.10"/>
+  <path d="M1000 0 L1200 0 L1200 300 L860 300 Z" fill="#ff7a1a" opacity="0.14"/>
+  <rect x="72" y="88" width="8" height="124" fill="#ff7a1a"/>
+  <text x="104" y="140" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="58" font-weight="700" fill="#f2f5f9">Titanfall 2 VR</text>
+  <text x="104" y="196" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="34" fill="#b6c2d2">em português do Brasil</text>
+</svg>
