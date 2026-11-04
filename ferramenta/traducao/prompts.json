@@ -1,0 +1,238 @@
+{
+  "arquivo": "TF2VR\\mods\\Titanfall2VR.Cockpit\\mod\\scripts\\vscripts\\tf2vr_prompts.nut",
+  "nome": "dicas do tutorial",
+  "linhas": [
+    {
+      "enHash": "ca8012b591e346338ec0420b2f81de0748ff5282a31c8aa6de3539f409c8f16c",
+      "textos": [
+        "gatilho direito",
+        "gatilho esquerdo"
+      ]
+    },
+    {
+      "enHash": "81ff48901196555a83ba3b0ec546def7d1ab621efb94662f6531b2c7994e1aa3",
+      "textos": [
+        "Y esquerdo",
+        "B esquerdo"
+      ]
+    },
+    {
+      "enHash": "5349da641bd48a6c4f7de339246fbe20e44306264b8a7d79678d9da5c27589a2",
+      "textos": [
+        "X esquerdo",
+        "A esquerdo"
+      ]
+    },
+    {
+      "enHash": "85a5c6cb0f1a64d2dc6708508cf5c780e6f304deb3e38c8032b15a7a3c44fd94",
+      "textos": [
+        "B direito"
+      ]
+    },
+    {
+      "enHash": "940a21e6f39b22e2b09e305068967af5f18fcddddf9850eda392b1abe9850f36",
+      "textos": [
+        "Leve uma das mãos à testa para ver os objetivos"
+      ]
+    },
+    {
+      "enHash": "56ce98901e5f46fb9f5a361eee49e278d381f80903e722d4cc5773f416b93659",
+      "textos": [
+        "Aperte o A direito para pular"
+      ]
+    },
+    {
+      "enHash": "d5b7d29c9f67eace8e616470a6e8e92e4222d86bed225f12ecf25fde6888d9d7",
+      "textos": [
+        "No ar, aperte o A direito de novo para o pulo duplo"
+      ]
+    },
+    {
+      "enHash": "88fe4869963766a015d1aea2a581084660ac53fcadabf8572822e512f9c34f5c",
+      "textos": [
+        "Aperte o analógico esquerdo para correr"
+      ]
+    },
+    {
+      "enHash": "4a6cf109dd910917c960ac9868038ec4f5d7dbbf439c083c3a54c82b5097237a",
+      "textos": [
+        "Pule em diagonal contra a parede para correr nela"
+      ]
+    },
+    {
+      "enHash": "d55cde844ad1a232b1e4f7b61f5fa418066087c4135d0d283ac02f308ff6ca8c",
+      "textos": [
+        "Agache ou segure o analógico direito para baixo. Corra antes para deslizar"
+      ]
+    },
+    {
+      "enHash": "3e4d9529def3631afc1b129ba62c3465d93e95a0c5250c93a537575b5aec78f5",
+      "textos": [
+        "Agache ou segure o analógico direito para baixo"
+      ]
+    },
+    {
+      "enHash": "2dcba0a72c4adb68b1af027f171cb3f10e341781c4e1001197f44ea37f6f87b9",
+      "textos": [
+        "Aperte o ",
+        " para recarregar"
+      ]
+    },
+    {
+      "enHash": "7d278e451c8cbc8f94d8131c9d2ce02793645f6a4f4843ad7d05ba7f6721e896",
+      "textos": [
+        "Use o grip da mão livre para pegar a arma com contorno"
+      ]
+    },
+    {
+      "enHash": "3b7b0902035eae6bfbd409ef4fa5606bfc1b11d2d802937383522de909dbc6ab",
+      "textos": [
+        "Principal: grip por cima do ombro. Secundária: grip no quadril esquerdo"
+      ]
+    },
+    {
+      "enHash": "db99026feaf27e713cd69fe2cdfe25ec002caf453ee1614afb4249e9dc265601",
+      "textos": [
+        "Solte o grip para guardar. Segure o grip por cima do ombro para sacar"
+      ]
+    },
+    {
+      "enHash": "2ad245aa63b939effe5808942ec89a71f345c9f1867cc440baa6ce3c96f87032",
+      "textos": [
+        "Pegue um carregador com o grip por cima do ombro ",
+        "direito",
+        "esquerdo",
+        ""
+      ]
+    },
+    {
+      "enHash": "00fd011070e08ba3b719abe2cc4c8198f74c98fcba2251988f83eb66dd0f9aae",
+      "textos": [
+        "Sem munição"
+      ]
+    },
+    {
+      "enHash": "a7833d0c5a34ec500572ef2e7562f646cce4b697438cdb1c2ab13ba014d3a376",
+      "textos": [
+        "Segure o grip no quadril esquerdo para sacar a segunda arma"
+      ]
+    },
+    {
+      "enHash": "ee11b0b6562496c11ca74944a0a285af130280ae4a8560610d13f3ba4726f17b",
+      "textos": [
+        "Ao pegar outra arma, ela substitui a anterior"
+      ]
+    },
+    {
+      "enHash": "a8aa396b087f88ce5fd82700a7fcd79ed786fddd828452ab4db746c2d18a8dc2",
+      "textos": [
+        "Aperte os dois analógicos juntos ou escolha Recentrar no menu de pausa"
+      ]
+    },
+    {
+      "enHash": "528c0a6092f65338ec8dbc4dddf2d0c48b65855bf7b7da6cafa0b6bc7747af1c",
+      "textos": [
+        "Segure o grip no quadril direito para sacar a Chave Voltaica"
+      ]
+    },
+    {
+      "enHash": "98900c37ccf02f66759a34ba0641adee7098fc2ecfca4633811dd3baa7dc9c64",
+      "textos": [
+        "Grip no quadril direito; mire a Chave Voltaica no interruptor e segure o gatilho"
+      ]
+    },
+    {
+      "enHash": "0c1bfe45a2d0a6d85ac6c25bba097c07003543af5fd5ac6bf3badd31f4b7a004",
+      "textos": [
+        "Pegue uma granada com o grip no alto do peito. Balance o braço e solte para lançar"
+      ]
+    },
+    {
+      "enHash": "6d0f875b82b2a2012a4a1bb6ef4b8c26761a267225b33e7d4b93ef0f969a92db",
+      "textos": [
+        "Aperte o ",
+        " para detonar as cargas plantadas"
+      ]
+    },
+    {
+      "enHash": "84270ed500947f47431bfa08f32a96447a33a7799a7b4d27e99356b37eee7a6c",
+      "textos": [
+        "Feche a mão vazia com o grip e dê um soco, ou aperte o analógico direito"
+      ]
+    },
+    {
+      "enHash": "e684532b50b5f983fa03aa602cdc7c1538df38fa3cfeffaff96dec15a2f2d43d",
+      "textos": [
+        "Aperte o ",
+        " para se camuflar"
+      ]
+    },
+    {
+      "enHash": "d4579f313b8e5bcef87145787359b3d19fa9ac33cb52558dfd59de56685c43df",
+      "textos": [
+        "Aperte o ",
+        " para viajar no tempo"
+      ]
+    },
+    {
+      "enHash": "f6ce6bc5f8c96358cdc3ace9914a1d060578ce783834be16bcbf316bb77469fc",
+      "textos": [
+        "Segure ",
+        " para hackear um Spectre próximo"
+      ]
+    },
+    {
+      "enHash": "a71f7e4d86195852e159f04d1c80ee1ae1c9e3bf4eab20f59bdfc2f078d426c9",
+      "textos": [
+        "Y esquerdo",
+        "B esquerdo",
+        ": resposta de cima. ",
+        "X esquerdo",
+        "A esquerdo",
+        ": a de baixo"
+      ]
+    },
+    {
+      "enHash": "79b99d17a03b9219f25ca937faa9492a21f6a806e15c27e2b0cbb314bcb20c54",
+      "textos": [
+        "Aperte o ",
+        " e escolha Reiniciar Desafio"
+      ]
+    },
+    {
+      "enHash": "29c03ae68e717a675c44b7a9a76411deaabb3d1418f335d39775d22829f7d7ea",
+      "textos": [
+        "Diário atualizado. Com a mão esquerda livre, aperte o "
+      ]
+    },
+    {
+      "enHash": "669c27d5abd137e8c26c353ec911cab520bd2d834b50bbd6249b981f26b9bd42",
+      "textos": [
+        "Analógico esquerdo escolhe a direção; aperte o A direito para o impulso"
+      ]
+    },
+    {
+      "enHash": "cb408a89b2329c6ffe6fef24613ab64b9f8b5b062364afaf7ee7f7d25103a95e",
+      "textos": [
+        "Gatilho ESQUERDO, mão para a frente. Solte para devolver os tiros"
+      ]
+    },
+    {
+      "enHash": "2dc92787ab7ce6dc283d7a8d4c4e005d2a53a18f565270c0d7c4b7490813e38c",
+      "textos": [
+        "Gatilho ESQUERDO, mão para cima. Solte para disparar"
+      ]
+    },
+    {
+      "enHash": "c620c4d8f5564eb642e52779cffe64d08214c817a285ff75172941650a36a429",
+      "textos": [
+        "Analógico esquerdo move o guindaste. Aperte ",
+        " para sair"
+      ]
+    },
+    {
+      "enHash": "052bff715897de366f0690176f3052994fd724fd924e6c9ef09bef3e010fff52",
+      "molde": "{0} \"Gatilho ESQUERDO, mão \" + ( {1} == {=75a288c0d6898c5f7b054590845978a82a3ad79fcce3d43ff68a7501e5a91ee9} ? \"para cima\" : ( {1} == {=9dc08e4033827c93f48cabc2f61e3f9817b51a7f1bcfa513a7537dcbc5d162e7} ? \"para a frente\" : ( {1} == {=908aec4512d80ff4fefb1970899091e9de8e734b36b8fdb7678e77dc092f6959} ? \"para baixo\" : ( {1} == {=3c482346f375027677fa8a0d6830a32714d4f13f9e94c2d9e215e0ac205ad4e5} ? \"para trás\" : {1} ) ) ) ) + \": \" + {2}"
+    }
+  ]
+}

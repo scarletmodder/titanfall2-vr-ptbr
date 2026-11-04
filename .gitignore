@@ -1,0 +1,21 @@
+# Dicionário original, conversor e termos da guarda: só na máquina de quem mantém.
+private/
+local/
+work/
+
+# Saída da compilação
+dist/
+*.exe
+*.pdb
+*.zip
+
+# Python
+__pycache__/
+*.pyc
+
+# Sistema e editores
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+.idea/

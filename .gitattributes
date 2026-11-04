@@ -1,0 +1,11 @@
+* text=auto eol=lf
+*.ps1 text eol=lf
+*.cs text eol=lf
+*.manifest text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.py text eol=lf
+*.yml text eol=lf
+*.exe binary
+*.zip binary
+*.ico binary
